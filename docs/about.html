@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>About - SIH-2K25 ERP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <header class="bg-white border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="./index.html" class="font-semibold">SIH-2K25 ERP</a>
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="./index.html" class="text-sm">Home</a>
+          <a href="./install.html" class="text-sm">Install</a>
+          <a href="./about.html" class="text-sm text-blue-600 font-medium">About</a>
+          <a href="./contact.html" class="text-sm">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-10 space-y-10">
+      <section>
+        <h1 class="text-3xl font-bold mb-4">About the Project</h1>
+        <p class="text-gray-700">SIH-2K25 ERP is a full-fledged academic resource planning platform. It connects students, faculty, and administrative workflows including admissions, courses, exams, results, hostel management, fees and payments, library, and attendance.</p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold mb-3">Tech Stack</h2>
+        <ul class="list-disc list-inside text-gray-700">
+          <li>Backend: ASP.NET Core 8, CoreWCF SOAP, Dapper, PostgreSQL</li>
+          <li>Frontend: React 18, Vite, Tailwind CSS, React Router, Context + useReducer</li>
+          <li>Testing: xUnit</li>
+          <li>Docs: GitHub Pages</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-semibold mb-3">Team</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="card p-4">
+            <h3 class="font-semibold">Lead Architect</h3>
+            <p class="text-gray-600 text-sm">Backend + Infrastructure</p>
+          </div>
+          <div class="card p-4">
+            <h3 class="font-semibold">Frontend Lead</h3>
+            <p class="text-gray-600 text-sm">UI/UX + Frontend Engineering</p>
+          </div>
+          <div class="card p-4">
+            <h3 class="font-semibold">DevOps & QA</h3>
+            <p class="text-gray-600 text-sm">Testing & CI/CD</p>
+          </div>
+          <div class="card p-4">
+            <h3 class="font-semibold">Product Manager</h3>
+            <p class="text-gray-600 text-sm">Planning & Delivery</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-gray-200 bg-white">
+      <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-gray-600">© <span id="year"></span> SIH-2K25 ERP.</div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Installation & Setup - SIH-2K25 ERP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <header class="bg-white border-b border-gray-200">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="./index.html" class="font-semibold">SIH-2K25 ERP</a>
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="./index.html" class="text-sm">Home</a>
+          <a href="./install.html" class="text-sm text-blue-600 font-medium">Install</a>
+          <a href="./about.html" class="text-sm">About</a>
+          <a href="./contact.html" class="text-sm">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-10">
+      <h1 class="text-3xl font-bold mb-6">Installation & Setup</h1>
+      <p class="text-gray-600 mb-8">Windows 10/11 with PowerShell 7 recommended. Git Bash optional.</p>
+
+      <ol class="space-y-8 list-decimal list-inside">
+        <li>
+          <h2 class="font-semibold mb-2">Clone the repository</h2>
+          <pre class="code">git clone https://github.com/your-org/sih-2k25.git
+cd sih-2k25</pre>
+        </li>
+
+        <li>
+          <h2 class="font-semibold mb-2">Backend prerequisites</h2>
+          <ul class="list-disc list-inside text-gray-700">
+            <li>.NET 8 SDK</li>
+            <li>PostgreSQL (connection via DATABASE_URL)</li>
+          </ul>
+          <pre class="code"># PowerShell
+cd Backend/SIH.ERP.Soap
+echo DATABASE_URL=&quot;Host=localhost;Database=sih_erp;Username=postgres;Password=yourpassword&quot; &gt; .env
+dotnet restore
+dotnet build
+dotnet run</pre>
+          <p class="text-sm text-gray-600">Open http://localhost:5000/health to verify health.</p>
+        </li>
+
+        <li>
+          <h2 class="font-semibold mb-2">Seed data (optional)</h2>
+          <pre class="code"># PowerShell
+psql -d sih_erp -f Backend/SIH.ERP.Soap/Seed/seed.sql</pre>
+        </li>
+
+        <li>
+          <h2 class="font-semibold mb-2">Frontend setup</h2>
+          <pre class="code"># PowerShell
+cd Frontend
+npm install
+echo VITE_BACKEND_BASE=&quot;http://localhost:5000&quot; &gt; .env.development
+npm run dev</pre>
+          <p class="text-sm text-gray-600">Open http://localhost:5173</p>
+        </li>
+
+        <li>
+          <h2 class="font-semibold mb-2">Run tests (optional)</h2>
+          <pre class="code"># PowerShell
+cd Backend/SIH.ERP.Soap
+dotnet test</pre>
+        </li>
+      </ol>
+    </main>
+
+    <footer class="border-t border-gray-200 bg-white">
+      <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-gray-600">© <span id="year"></span> SIH-2K25 ERP.</div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

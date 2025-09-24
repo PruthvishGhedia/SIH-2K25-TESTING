@@ -33,7 +33,9 @@ public class GenericCrudService : IGenericCrud
         "student", "course", "department", "user", "fees", "exam", 
         "guardian", "admission", "hostel", "room", "hostelallocation", 
         "library", "bookissue", "result", "userrole", "contactdetails",
-        "role", "subject"
+        "role", "subject",
+        // Stage 1.2 tables
+        "faculty", "enrollment", "attendance", "payment"
     };
 
     public GenericCrudService(IDbConnection db)

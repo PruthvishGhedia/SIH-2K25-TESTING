@@ -57,9 +57,12 @@ function xmlToJson(xmlNode) {
   return obj;
 }
 
+function entityPath(entity){ return `/soap/${entity}`; }
+function idField(entity){ return getEntityIdField(entity); }
+
 export default {
   async list(entity, { limit = 50, offset = 0 } = {}) {
-    const path = `/soap/${entity}`;
+    const path = entityPath(entity);
     const soapAction = `http://tempuri.org/I${capitalize(entity)}Service/ListAsync`;
     const bodyXml = `<ListAsync xmlns="http://tempuri.org/"><limit>${limit}</limit><offset>${offset}</offset></ListAsync>`;
     const raw = await soapFetch(path, soapAction, bodyXml);
@@ -74,7 +77,7 @@ export default {
     return items;
   },
   async get(entity, id) {
-    const path = `/soap/${entity}`;
+    const path = entityPath(entity);
     const soapAction = `http://tempuri.org/I${capitalize(entity)}Service/GetAsync`;
     const bodyXml = `<GetAsync xmlns="http://tempuri.org/"><${getEntityIdField(entity)}>${id}</${getEntityIdField(entity)}></GetAsync>`;
     const raw = await soapFetch(path, soapAction, bodyXml);
@@ -84,7 +87,7 @@ export default {
     return xmlToJson(doc.documentElement);
   },
   async create(entity, payload) {
-    const path = `/soap/${entity}`;
+    const path = entityPath(entity);
     const soapAction = `http://tempuri.org/I${capitalize(entity)}Service/CreateAsync`;
     const payloadXml = objectToXml(payload, entity);
     const bodyXml = `<CreateAsync xmlns="http://tempuri.org/"><item>${payloadXml}</item></CreateAsync>`;
@@ -95,7 +98,7 @@ export default {
     return xmlToJson(doc.documentElement);
   },
   async update(entity, id, payload) {
-    const path = `/soap/${entity}`;
+    const path = entityPath(entity);
     const soapAction = `http://tempuri.org/I${capitalize(entity)}Service/UpdateAsync`;
     const payloadXml = objectToXml(payload, entity);
     const bodyXml = `<UpdateAsync xmlns="http://tempuri.org/"><${getEntityIdField(entity)}>${id}</${getEntityIdField(entity)}><item>${payloadXml}</item></UpdateAsync>`;

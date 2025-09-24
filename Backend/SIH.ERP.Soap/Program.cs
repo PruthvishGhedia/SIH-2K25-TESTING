@@ -114,6 +114,16 @@ app.UseServiceModel(serviceBuilder =>
     serviceBuilder.AddServiceEndpoint<UserRoleService, SIH.ERP.Soap.Contracts.IUserRoleService>(new BasicHttpBinding(), "/soap/userrole");
     serviceBuilder.AddService<ContactDetailsService>();
     serviceBuilder.AddServiceEndpoint<ContactDetailsService, SIH.ERP.Soap.Contracts.IContactDetailsService>(new BasicHttpBinding(), "/soap/contactdetails");
+
+    // Stage 1.2 services
+    serviceBuilder.AddService<FacultyService>();
+    serviceBuilder.AddServiceEndpoint<FacultyService, SIH.ERP.Soap.Contracts.IFacultyService>(new BasicHttpBinding(), "/soap/faculty");
+    serviceBuilder.AddService<EnrollmentService>();
+    serviceBuilder.AddServiceEndpoint<EnrollmentService, SIH.ERP.Soap.Contracts.IEnrollmentService>(new BasicHttpBinding(), "/soap/enrollment");
+    serviceBuilder.AddService<AttendanceService>();
+    serviceBuilder.AddServiceEndpoint<AttendanceService, SIH.ERP.Soap.Contracts.IAttendanceService>(new BasicHttpBinding(), "/soap/attendance");
+    serviceBuilder.AddService<PaymentService>();
+    serviceBuilder.AddServiceEndpoint<PaymentService, SIH.ERP.Soap.Contracts.IPaymentService>(new BasicHttpBinding(), "/soap/payment");
 });
 
 // Map health checks endpoint

@@ -1,3 +1,57 @@
+export const ENTITY_IDS = {
+  student: 'student_id',
+  course: 'course_id',
+  department: 'dept_id',
+  user: 'user_id',
+  role: 'role_id',
+  userrole: 'userrole_id',
+  fees: 'fee_id',
+  payment: 'payment_id',
+  exam: 'exam_id',
+  result: 'result_id',
+  guardian: 'guardian_id',
+  admission: 'admission_id',
+  hostel: 'hostel_id',
+  room: 'room_id',
+  hostelallocation: 'allocation_id',
+  library: 'book_id',
+  book: 'book_id',
+  bookissue: 'issue_id',
+  faculty: 'faculty_id',
+  enrollment: 'enrollment_id',
+  attendance: 'attendance_id',
+  contactdetails: 'contact_id',
+};
+
+export const ENTITY_LABELS = {
+  student: 'Student',
+  course: 'Course',
+  department: 'Department',
+  user: 'User',
+  role: 'Role',
+  userrole: 'User Role',
+  fees: 'Fees',
+  payment: 'Payment',
+  exam: 'Exam',
+  result: 'Result',
+  guardian: 'Guardian',
+  admission: 'Admission',
+  hostel: 'Hostel',
+  room: 'Room',
+  hostelallocation: 'Hostel Allocation',
+  library: 'Library Book',
+  book: 'Book',
+  bookissue: 'Book Issue',
+  faculty: 'Faculty',
+  enrollment: 'Enrollment',
+  attendance: 'Attendance',
+  contactdetails: 'Contact Details',
+};
+
+export const PAGE_SIZES = [10, 25, 50];
+
+export const DEFAULT_SORT = { key: 'created_at', order: 'desc' };
+
 // API Configuration
 export const API_BASE_URL = 'http://localhost:5000'; // Update with your backend URL
 

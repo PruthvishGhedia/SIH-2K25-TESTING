@@ -95,3 +95,29 @@ INSERT INTO contactdetails (contact_id, user_id, phone, address, city, state, zi
 (2, 2, '+1234567891', '456 Teacher Ave', 'Teacher City', 'Teacher State', '23456'),
 (3, 3, '+1234567892', '789 Student Blvd', 'Student City', 'Student State', '34567')
 ON CONFLICT (contact_id) DO NOTHING;
+
+-- Stage 1.2 entities
+
+-- Faculty
+INSERT INTO faculty (faculty_id, first_name, last_name, email, phone, department_id, is_active) VALUES
+(1, 'Alice', 'Wong', 'alice.wong@school.edu', '+1800123456', 1, true),
+(2, 'Ravi', 'Kumar', 'ravi.kumar@school.edu', '+1800123457', 2, true)
+ON CONFLICT (faculty_id) DO NOTHING;
+
+-- Enrollment
+INSERT INTO enrollment (enrollment_id, student_id, course_id, enrollment_date, status) VALUES
+(1, 1, 1, '2023-09-05', 'active'),
+(2, 2, 1, '2023-09-06', 'active')
+ON CONFLICT (enrollment_id) DO NOTHING;
+
+-- Attendance
+INSERT INTO attendance (attendance_id, student_id, course_id, date, present) VALUES
+(1, 1, 1, '2023-09-10', true),
+(2, 2, 1, '2023-09-10', false)
+ON CONFLICT (attendance_id) DO NOTHING;
+
+-- Payments
+INSERT INTO payment (payment_id, student_id, amount, payment_date, status, mode) VALUES
+(1, 1, 50000.00, '2024-01-10', 'paid', 'online'),
+(2, 2, 25000.00, '2024-01-12', 'pending', 'cash')
+ON CONFLICT (payment_id) DO NOTHING;

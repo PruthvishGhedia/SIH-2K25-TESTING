@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SIH-2K25 ERP Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="bg-gray-50 text-gray-900" style="font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="./index.html" class="flex items-center space-x-2">
+          <div class="h-8 w-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold">S</div>
+          <span class="font-semibold">SIH-2K25 ERP</span>
+        </a>
+        <button id="navToggle" class="md:hidden p-2 rounded hover:bg-gray-100" aria-label="Toggle navigation">
+          <span class="block w-6 h-0.5 bg-gray-700 mb-1"></span>
+          <span class="block w-6 h-0.5 bg-gray-700 mb-1"></span>
+          <span class="block w-6 h-0.5 bg-gray-700"></span>
+        </button>
+        <nav id="topNav" class="hidden md:flex items-center space-x-6">
+          <a href="./index.html" class="text-sm font-medium text-blue-600">Home</a>
+          <a href="./install.html" class="text-sm font-medium text-gray-700 hover:text-blue-600">Install</a>
+          <a href="./about.html" class="text-sm font-medium text-gray-700 hover:text-blue-600">About</a>
+          <a href="./contact.html" class="text-sm font-medium text-gray-700 hover:text-blue-600">Contact</a>
+        </nav>
+      </div>
+      <div id="mobileNav" class="md:hidden hidden border-t border-gray-200 bg-white">
+        <div class="px-4 py-2 space-y-1">
+          <a href="./index.html" class="block py-2 text-sm text-blue-600">Home</a>
+          <a href="./install.html" class="block py-2 text-sm text-gray-700">Install</a>
+          <a href="./about.html" class="block py-2 text-sm text-gray-700">About</a>
+          <a href="./contact.html" class="block py-2 text-sm text-gray-700">Contact</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="bg-gradient-to-b from-white to-blue-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 py-16 md:py-20 grid md:grid-cols-2 gap-8 items-center">
+          <div>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">SIH-2K25 ERP Project</h1>
+            <p class="text-gray-600 text-lg md:text-xl mb-6">A modern, modular Educational Resource Planning system built with ASP.NET Core 8, CoreWCF SOAP, PostgreSQL, and React + Vite frontend.</p>
+            <div class="flex flex-wrap gap-3">
+              <a href="https://github.com/" target="_blank" class="btn btn-primary">View on GitHub</a>
+              <a href="./install.html" class="btn btn-secondary">Get Started</a>
+            </div>
+          </div>
+          <div class="relative">
+            <img src="assets/img/hero-placeholder.png" alt="Screenshot placeholder" class="w-full rounded-lg shadow" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Features -->
+      <section class="max-w-7xl mx-auto px-4 py-12">
+        <h2 class="text-2xl font-bold mb-6">Key Features</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="card p-6">
+            <h3 class="font-semibold mb-2">Full ERP Modules</h3>
+            <p class="text-gray-600 text-sm">Students, Courses, Departments, Users, Fees/Payments, Exams, Library, Hostel, Attendance, and more.</p>
+          </div>
+          <div class="card p-6">
+            <h3 class="font-semibold mb-2">Production-Ready Backend</h3>
+            <p class="text-gray-600 text-sm">ASP.NET Core 8 + CoreWCF SOAP, Dapper, PostgreSQL, CORS, health checks, error middleware.</p>
+          </div>
+          <div class="card p-6">
+            <h3 class="font-semibold mb-2">Modern Frontend</h3>
+            <p class="text-gray-600 text-sm">React 18 + Vite + Tailwind, React Router, Context + useReducer, responsive UI components.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stack -->
+      <section class="bg-white border-t border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 py-12">
+          <h2 class="text-2xl font-bold mb-4">Tech Stack</h2>
+          <ul class="list-disc list-inside text-gray-700 space-y-1">
+            <li>Backend: ASP.NET Core 8, CoreWCF SOAP, Dapper, PostgreSQL</li>
+            <li>Frontend: React 18, Vite, Tailwind CSS, React Router, Context + useReducer</li>
+            <li>Tooling: xUnit tests, GitHub Pages docs</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Gallery -->
+      <section class="max-w-7xl mx-auto px-4 py-12">
+        <h2 class="text-2xl font-bold mb-6">Screenshots</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <img src="assets/img/screen-1.png" class="rounded-lg shadow" alt="Screenshot 1" />
+          <img src="assets/img/screen-2.png" class="rounded-lg shadow" alt="Screenshot 2" />
+          <img src="assets/img/screen-3.png" class="rounded-lg shadow" alt="Screenshot 3" />
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-gray-200 bg-white">
+      <div class="max-w-7xl mx-auto px-4 py-6 text-sm text-gray-600 flex items-center justify-between">
+        <p>© <span id="year"></span> SIH-2K25 ERP. All rights reserved.</p>
+        <div class="space-x-4">
+          <a href="./install.html" class="hover:text-blue-600">Install</a>
+          <a href="./about.html" class="hover:text-blue-600">About</a>
+          <a href="./contact.html" class="hover:text-blue-600">Contact</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+  </body>
+  
+</html>

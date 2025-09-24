@@ -1,0 +1,7 @@
+/* Light custom styles building on Tailwind utility classes */
+.btn { @apply inline-flex items-center justify-center px-4 py-2 rounded-lg font-medium transition-colors; }
+.btn-primary { @apply bg-blue-600 text-white hover:bg-blue-700; }
+.btn-secondary { @apply bg-gray-200 text-gray-900 hover:bg-gray-300; }
+.card { @apply bg-white border border-gray-200 rounded-lg shadow-sm; }
+.input { @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white; }
+.code { @apply bg-gray-900 text-gray-100 p-3 rounded-lg overflow-auto text-sm; }
