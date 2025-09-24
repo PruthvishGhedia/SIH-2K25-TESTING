@@ -5,10 +5,45 @@ using Npgsql;
 using System.Data;
 using SIH.ERP.Soap.Services;
 using SIH.ERP.Soap.Repositories;
+using SIH.ERP.Soap.Middleware;
 using Microsoft.OpenApi.Models;
+using Scrutor;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load environment variables early
 Env.Load();
+
+// Configure CORS
+var CORS_POLICY = "SihFrontendPolicy";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(CORS_POLICY, policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
+
+// Register scoped IDbConnection (replaces singleton)
+builder.Services.AddScoped<IDbConnection>(sp =>
+{
+    var connStr = Environment.GetEnvironmentVariable("DATABASE_URL") ?? 
+                  builder.Configuration.GetConnectionString("SIH") ?? 
+                  throw new Exception("DATABASE_URL or SIH connection string not set");
+    var conn = new NpgsqlConnection(connStr);
+    conn.Open();
+    return conn;
+});
+
+// Add health checks
+builder.Services.AddHealthChecks()
+    .AddNpgSql(Environment.GetEnvironmentVariable("DATABASE_URL") ?? 
+               builder.Configuration.GetConnectionString("SIH") ?? 
+               throw new Exception("DATABASE_URL or SIH connection string not set"));
 
 builder.Services.AddServiceModelServices();
 builder.Services.AddEndpointsApiExplorer();
@@ -16,54 +51,26 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "SIH ERP SOAP/Health", Version = "v1" });
 });
-builder.Services.AddSingleton<IDbConnection>(_ => {
-    var cs = Environment.GetEnvironmentVariable("DATABASE_URL") ?? throw new Exception("DATABASE_URL not set");
-    var conn = new NpgsqlConnection(cs);
-    return conn;
-});
 
-// Existing services
-builder.Services.AddSingleton<GenericCrudService>();
-builder.Services.AddSingleton<DepartmentRepository>();
-builder.Services.AddSingleton<DepartmentService>();
-builder.Services.AddSingleton<RoleRepository>();
-builder.Services.AddSingleton<RoleService>();
-builder.Services.AddSingleton<CourseRepository>();
-builder.Services.AddSingleton<CourseService>();
-builder.Services.AddSingleton<SubjectRepository>();
-builder.Services.AddSingleton<SubjectService>();
-builder.Services.AddSingleton<StudentRepository>();
-builder.Services.AddSingleton<StudentService>();
+// Auto-register repositories and services with Scrutor (scoped lifetime)
+builder.Services.Scan(scan => scan
+    .FromAssemblyOf<StudentRepository>()
+    .AddClasses(classes => classes
+        .Where(type => type.Name.EndsWith("Repository") || type.Name.EndsWith("Service"))
+        .Where(type => !type.Name.Contains("GenericCrud")))
+    .AsImplementedInterfaces()
+    .WithScopedLifetime());
 
-// New services
-builder.Services.AddSingleton<GuardianRepository>();
-builder.Services.AddSingleton<GuardianService>();
-builder.Services.AddSingleton<AdmissionRepository>();
-builder.Services.AddSingleton<AdmissionService>();
-builder.Services.AddSingleton<HostelRepository>();
-builder.Services.AddSingleton<HostelService>();
-builder.Services.AddSingleton<RoomRepository>();
-builder.Services.AddSingleton<RoomService>();
-builder.Services.AddSingleton<HostelAllocationRepository>();
-builder.Services.AddSingleton<HostelAllocationService>();
-builder.Services.AddSingleton<FeesRepository>();
-builder.Services.AddSingleton<FeesService>();
-builder.Services.AddSingleton<LibraryRepository>();
-builder.Services.AddSingleton<LibraryService>();
-builder.Services.AddSingleton<BookIssueRepository>();
-builder.Services.AddSingleton<BookIssueService>();
-builder.Services.AddSingleton<ExamRepository>();
-builder.Services.AddSingleton<ExamService>();
-builder.Services.AddSingleton<ResultRepository>();
-builder.Services.AddSingleton<ResultService>();
-builder.Services.AddSingleton<UserRepository>();
-builder.Services.AddSingleton<UserService>();
-builder.Services.AddSingleton<UserRoleRepository>();
-builder.Services.AddSingleton<UserRoleService>();
-builder.Services.AddSingleton<ContactDetailsRepository>();
-builder.Services.AddSingleton<ContactDetailsService>();
+// Register GenericCrudService separately (needs special handling)
+builder.Services.AddScoped<GenericCrudService>();
 
 var app = builder.Build();
+
+// Add CORS
+app.UseCors(CORS_POLICY);
+
+// Add error handling middleware
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.UseServiceModel(serviceBuilder =>
 {
@@ -109,7 +116,8 @@ app.UseServiceModel(serviceBuilder =>
     serviceBuilder.AddServiceEndpoint<ContactDetailsService, SIH.ERP.Soap.Contracts.IContactDetailsService>(new BasicHttpBinding(), "/soap/contactdetails");
 });
 
-app.MapGet("/health", () => Results.Ok(new { status = "ok", time = DateTime.UtcNow }));
+// Map health checks endpoint
+app.MapHealthChecks("/health");
 
 app.UseSwagger();
 app.UseSwaggerUI();
