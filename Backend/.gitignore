@@ -19,7 +19,7 @@ bld/
 # Visual Studio files
 *.suo
 .claude
-.bin
+.bin/
 .obj
 *.user
 *.userosscache
