@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\SIH.ERP.Soap.props" />
-</Project>

@@ -8,7 +8,6 @@ using SIH.ERP.Soap.Repositories;
 using SIH.ERP.Soap.Middleware;
 using Microsoft.OpenApi.Models;
 using Scrutor;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,17 +38,64 @@ builder.Services.AddScoped<IDbConnection>(sp =>
     return conn;
 });
 
-// Add health checks
-builder.Services.AddHealthChecks()
-    .AddNpgSql(Environment.GetEnvironmentVariable("DATABASE_URL") ?? 
-               builder.Configuration.GetConnectionString("SIH") ?? 
-               throw new Exception("DATABASE_URL or SIH connection string not set"));
-
 builder.Services.AddServiceModelServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "SIH ERP SOAP/Health", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo 
+    { 
+        Title = "SIH ERP SOAP API", 
+        Version = "v1",
+        Description = "SOAP-based Web Services for SIH ERP System - Complete API Documentation",
+        Contact = new OpenApiContact
+        {
+            Name = "SIH ERP Team",
+            Email = "support@sih-erp.com",
+            Url = new Uri("https://github.com/SIH-ERP")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "MIT License",
+            Url = new Uri("https://github.com/SIH-ERP/license")
+        }
+    });
+    
+    // Add XML comments support
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath);
+    }
+    
+    // Add security definition for SOAP services
+    c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "basic",
+        In = ParameterLocation.Header,
+        Description = "Basic Authorization header using the Bearer scheme."
+    });
+    
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "basic"
+                }
+            },
+            new string[] {}
+        }
+    });
+    
+    // Add operation filters to improve SOAP endpoint documentation
+    c.TagActionsBy(api => new[] { api.HttpMethod });
+    c.DocInclusionPredicate((name, api) => true);
 });
 
 // Auto-register repositories and services with Scrutor (scoped lifetime)
@@ -126,10 +172,22 @@ app.UseServiceModel(serviceBuilder =>
     serviceBuilder.AddServiceEndpoint<PaymentService, SIH.ERP.Soap.Contracts.IPaymentService>(new BasicHttpBinding(), "/soap/payment");
 });
 
-// Map health checks endpoint
-app.MapHealthChecks("/health");
-
+// Enable middleware to serve generated Swagger as a JSON endpoint
 app.UseSwagger();
-app.UseSwaggerUI();
+
+// Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.)
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SIH ERP SOAP API v1");
+    c.RoutePrefix = "swagger";
+    c.DocumentTitle = "SIH ERP SOAP API Documentation";
+    c.DefaultModelsExpandDepth(-1); // Hide schemas by default
+    c.DisplayOperationId();
+    c.DisplayRequestDuration();
+    c.EnableDeepLinking();
+});
 
 app.Run();
+
+// Make Program class public for testing
+public partial class Program { }

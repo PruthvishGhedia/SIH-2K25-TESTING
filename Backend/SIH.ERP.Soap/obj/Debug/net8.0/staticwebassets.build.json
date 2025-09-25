@@ -1,11 +1,1 @@
-{
-  "Version": 1,
-  "Hash": "wftUeNYtCoamjRsvSgEZ8EVSBu530GmLYLhrU+kaMyg=",
-  "Source": "SIH.ERP.Soap",
-  "BasePath": "_content/SIH.ERP.Soap",
-  "Mode": "Default",
-  "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
-}
+{"Version":1,"Hash":"zQKt+XJhsW/7Ptw8qhCaEmiRr+cQKLEknlnvp73F8lA=","Source":"SIH.ERP.Soap","BasePath":"_content/SIH.ERP.Soap","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[],"Assets":[],"Endpoints":[]}

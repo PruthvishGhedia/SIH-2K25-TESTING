@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "D:\\workie\\SIH-2k25\\Backend\\SIH.ERP.Soap\\SIH.ERP.Soap.csproj": {}
+    "D:\\A code\\Neon\\SIH-2K25-TESTING\\Backend\\SIH.ERP.Soap\\SIH.ERP.Soap.csproj": {}
   },
   "projects": {
-    "D:\\workie\\SIH-2k25\\Backend\\SIH.ERP.Soap\\SIH.ERP.Soap.csproj": {
+    "D:\\A code\\Neon\\SIH-2K25-TESTING\\Backend\\SIH.ERP.Soap\\SIH.ERP.Soap.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\workie\\SIH-2k25\\Backend\\SIH.ERP.Soap\\SIH.ERP.Soap.csproj",
+        "projectUniqueName": "D:\\A code\\Neon\\SIH-2K25-TESTING\\Backend\\SIH.ERP.Soap\\SIH.ERP.Soap.csproj",
         "projectName": "SIH.ERP.Soap",
-        "projectPath": "D:\\workie\\SIH-2k25\\Backend\\SIH.ERP.Soap\\SIH.ERP.Soap.csproj",
-        "packagesPath": "C:\\Users\\pruth\\.nuget\\packages\\",
-        "outputPath": "D:\\workie\\SIH-2k25\\Backend\\SIH.ERP.Soap\\obj\\",
+        "projectPath": "D:\\A code\\Neon\\SIH-2K25-TESTING\\Backend\\SIH.ERP.Soap\\SIH.ERP.Soap.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "D:\\A code\\Neon\\SIH-2K25-TESTING\\Backend\\SIH.ERP.Soap\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pruth\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -37,7 +44,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net8.0": {
@@ -63,6 +71,10 @@
               "target": "Package",
               "version": "[8.0.3, )"
             },
+            "Scrutor": {
+              "target": "Package",
+              "version": "[4.2.2, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.6.2, )"
@@ -87,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.414/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

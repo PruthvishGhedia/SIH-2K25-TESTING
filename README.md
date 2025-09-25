@@ -20,7 +20,6 @@ A comprehensive Educational Resource Planning (ERP) system built with ASP.NET Co
 - ✅ Secure GenericCrudService with allowlisted tables
 - ✅ Parameterized queries to prevent SQL injection
 - ✅ Comprehensive seed data for development
-- ✅ Unit and integration tests
 
 ### Frontend Features
 - ✅ Modern React 18 with TypeScript
@@ -168,20 +167,6 @@ const updatedStudent = await soapClient.update('student', 1, {
 await soapClient.remove('student', 1);
 ```
 
-## Testing
-
-### Backend Tests
-```bash
-cd Backend/SIH.ERP.Soap
-dotnet test
-```
-
-### Frontend Tests
-```bash
-cd Frontend
-npm test
-```
-
 ## Project Structure
 
 ```
@@ -197,7 +182,6 @@ SIH-2k25/
 │   │   ├── Exceptions/        # Custom exceptions
 │   │   ├── Seed/              # Database seed data
 │   │   └── Program.cs         # Application entry point
-│   └── SIH.ERP.Soap.Tests/    # Unit and integration tests
 ├── Frontend/
 │   ├── src/
 │   │   ├── services/          # SOAP client
@@ -233,7 +217,6 @@ SIH-2k25/
 
 1. **Backend Development**
    - Make changes to services/repositories
-   - Run tests: `dotnet test`
    - Test SOAP endpoints with curl
    - Verify health checks
 

@@ -3,6 +3,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Enable XML documentation generation -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CoreWCF.Http" Version="1.5.0" />
@@ -12,6 +15,5 @@
     <PackageReference Include="DotNetEnv" Version="3.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Scrutor" Version="4.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.Npgsql" Version="8.0.0" />
   </ItemGroup>
 </Project>
