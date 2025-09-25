@@ -8,7 +8,7 @@ import Input from '../../components/ui/Input'
 import Select from '../../components/ui/Select'
 import LoadingSpinner from '../../components/ui/LoadingSpinner'
 import ErrorAlert from '../../components/ui/ErrorAlert'
-import { validateRequired, validateDate } from '../../utils/validators'
+import { validators } from '../../utils/validators'
 import { STATUS_OPTIONS } from '../../utils/constants'
 
 const AdmissionForm = () => {
@@ -72,17 +72,17 @@ const AdmissionForm = () => {
   const validateForm = () => {
     const newErrors = {}
 
-    if (!validateRequired(formData.student_id)) {
+    if (validators.required(formData.student_id)) {
       newErrors.student_id = 'Student is required'
     }
 
-    if (!validateRequired(formData.admission_date)) {
+    if (validators.required(formData.admission_date)) {
       newErrors.admission_date = 'Admission date is required'
-    } else if (!validateDate(formData.admission_date)) {
+    } else if (validators.date(formData.admission_date)) {
       newErrors.admission_date = 'Please enter a valid date'
     }
 
-    if (!validateRequired(formData.status)) {
+    if (validators.required(formData.status)) {
       newErrors.status = 'Status is required'
     }
 
@@ -236,10 +236,34 @@ const AdmissionForm = () => {
               ) : (
                 <Save className="h-4 w-4 mr-2" />
               )}
-              {isEdit ? 'Update Admission' : 'Create Admission'}
+              {isEdit ? 'Update Admission Record' : 'Create Admission Record'}
             </Button>
           </div>
         </form>
+      </div>
+
+      {/* Additional Information */}
+      <div className="card">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Additional Information</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+          <div>
+            <h4 className="font-medium text-gray-900 mb-2">Status Options:</h4>
+            <ul className="space-y-1">
+              <li><strong>Applied:</strong> Initial application submitted</li>
+              <li><strong>Under Review:</strong> Application being reviewed</li>
+              <li><strong>Accepted:</strong> Application approved</li>
+              <li><strong>Rejected:</strong> Application denied</li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-medium text-gray-900 mb-2">Tips:</h4>
+            <ul className="space-y-1">
+              <li>• Ensure all required documents are submitted</li>
+              <li>• Review application before final submission</li>
+              <li>• Update status as the process moves forward</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   )

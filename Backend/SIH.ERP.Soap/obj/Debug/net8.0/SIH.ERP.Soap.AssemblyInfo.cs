@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SIH.ERP.Soap")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6263320416bc90b14621c667bfa2f6c3a141e859")]
 [assembly: System.Reflection.AssemblyProductAttribute("SIH.ERP.Soap")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SIH.ERP.Soap")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

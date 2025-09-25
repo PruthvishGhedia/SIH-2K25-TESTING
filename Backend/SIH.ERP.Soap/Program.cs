@@ -9,22 +9,25 @@ using SIH.ERP.Soap.Middleware;
 using Microsoft.OpenApi.Models;
 using Scrutor;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using SIH.ERP.Soap.Health;
+using System.Text.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Load environment variables early
 Env.Load();
 
-// Configure CORS
+// Configure CORS - Allow all origins for frontend testing
 var CORS_POLICY = "SihFrontendPolicy";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(CORS_POLICY, policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+              .AllowAnyMethod();
     });
 });
 
@@ -39,11 +42,16 @@ builder.Services.AddScoped<IDbConnection>(sp =>
     return conn;
 });
 
-// Add health checks
+// Add health checks with custom PostgreSQL health check
 builder.Services.AddHealthChecks()
-    .AddNpgSql(Environment.GetEnvironmentVariable("DATABASE_URL") ?? 
-               builder.Configuration.GetConnectionString("SIH") ?? 
-               throw new Exception("DATABASE_URL or SIH connection string not set"));
+    .Add(new HealthCheckRegistration(
+        "PostgreSQL",
+        sp => new CustomPostgreSqlHealthCheck(
+            Environment.GetEnvironmentVariable("DATABASE_URL") ?? 
+            builder.Configuration.GetConnectionString("SIH") ?? 
+            throw new Exception("DATABASE_URL or SIH connection string not set")),
+        HealthStatus.Unhealthy,
+        new[] { "database", "postgresql" }));
 
 builder.Services.AddServiceModelServices();
 builder.Services.AddEndpointsApiExplorer();
@@ -126,10 +134,42 @@ app.UseServiceModel(serviceBuilder =>
     serviceBuilder.AddServiceEndpoint<PaymentService, SIH.ERP.Soap.Contracts.IPaymentService>(new BasicHttpBinding(), "/soap/payment");
 });
 
-// Map health checks endpoint
-app.MapHealthChecks("/health");
+// Map health checks endpoint with JSON response
+app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        
+        // Create a serializable version of the report
+        var entries = new Dictionary<string, object>();
+        foreach (var entry in report.Entries)
+        {
+            entries[entry.Key] = new
+            {
+                status = entry.Value.Status.ToString(),
+                description = entry.Value.Description,
+                duration = entry.Value.Duration,
+                // Exclude exception details that can't be serialized
+            };
+        }
+        
+        var response = new
+        {
+            status = report.Status.ToString(),
+            totalDuration = report.TotalDuration,
+            entries = entries
+        };
+        
+        await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+    }
+});
 
-app.UseSwagger();
-app.UseSwaggerUI();
+// Add Swagger only in development
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.Run();

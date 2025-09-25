@@ -7,7 +7,7 @@ import Button from '../../components/ui/Button'
 import Input from '../../components/ui/Input'
 import LoadingSpinner from '../../components/ui/LoadingSpinner'
 import ErrorAlert from '../../components/ui/ErrorAlert'
-import { validateRequired, validateNumber } from '../../utils/validators'
+import { validators } from '../../utils/validators'
 
 const HostelForm = () => {
   const navigate = useNavigate()
@@ -57,13 +57,13 @@ const HostelForm = () => {
   const validateForm = () => {
     const newErrors = {}
 
-    if (!validateRequired(formData.hostel_name)) {
+    if (validators.required(formData.hostel_name)) {
       newErrors.hostel_name = 'Hostel name is required'
     }
 
-    if (!validateRequired(formData.capacity)) {
+    if (validators.required(formData.capacity)) {
       newErrors.capacity = 'Capacity is required'
-    } else if (!validateNumber(formData.capacity) || parseInt(formData.capacity) <= 0) {
+    } else if (validators.number(formData.capacity) || parseInt(formData.capacity) <= 0) {
       newErrors.capacity = 'Capacity must be a positive number'
     }
 

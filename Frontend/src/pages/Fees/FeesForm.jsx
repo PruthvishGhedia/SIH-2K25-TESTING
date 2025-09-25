@@ -8,7 +8,7 @@ import Input from '../../components/ui/Input'
 import Select from '../../components/ui/Select'
 import LoadingSpinner from '../../components/ui/LoadingSpinner'
 import ErrorAlert from '../../components/ui/ErrorAlert'
-import { validateRequired, validateNumber, validateDate } from '../../utils/validators'
+import { validators } from '../../utils/validators'
 import { STATUS_OPTIONS } from '../../utils/constants'
 
 const FeesForm = () => {
@@ -76,27 +76,39 @@ const FeesForm = () => {
     const newErrors = {}
 
     // Validate student selection
-    if (!validateRequired(formData.student_id)) {
-      newErrors.student_id = 'Student is required'
+    const studentError = validators.required(formData.student_id);
+    if (studentError) {
+      newErrors.student_id = studentError;
     }
 
     // Validate amount
-    if (!validateRequired(formData.amount)) {
-      newErrors.amount = 'Amount is required'
-    } else if (!validateNumber(formData.amount) || parseFloat(formData.amount) <= 0) {
-      newErrors.amount = 'Amount must be a positive number'
+    const amountRequiredError = validators.required(formData.amount);
+    if (amountRequiredError) {
+      newErrors.amount = amountRequiredError;
+    } else {
+      const amountNumberError = validators.number(formData.amount);
+      if (amountNumberError) {
+        newErrors.amount = amountNumberError;
+      } else if (parseFloat(formData.amount) <= 0) {
+        newErrors.amount = 'Amount must be a positive number';
+      }
     }
 
     // Validate status
-    if (!validateRequired(formData.status)) {
-      newErrors.status = 'Status is required'
+    const statusError = validators.required(formData.status);
+    if (statusError) {
+      newErrors.status = statusError;
     }
 
     // Validate due date
-    if (!validateRequired(formData.due_date)) {
-      newErrors.due_date = 'Due date is required'
-    } else if (!validateDate(formData.due_date)) {
-      newErrors.due_date = 'Please enter a valid date'
+    const dueDateRequiredError = validators.required(formData.due_date);
+    if (dueDateRequiredError) {
+      newErrors.due_date = dueDateRequiredError;
+    } else {
+      const dueDateError = validators.date(formData.due_date);
+      if (dueDateError) {
+        newErrors.due_date = dueDateError;
+      }
     }
 
     setErrors(newErrors)

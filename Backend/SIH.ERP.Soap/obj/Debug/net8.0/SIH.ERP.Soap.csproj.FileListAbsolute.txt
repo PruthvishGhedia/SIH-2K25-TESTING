@@ -74,3 +74,6 @@ D:\workie\SIH-2k25\Backend\SIH.ERP.Soap\obj\Debug\net8.0\refint\SIH.ERP.Soap.dll
 D:\workie\SIH-2k25\Backend\SIH.ERP.Soap\obj\Debug\net8.0\SIH.ERP.Soap.pdb
 D:\workie\SIH-2k25\Backend\SIH.ERP.Soap\obj\Debug\net8.0\SIH.ERP.Soap.genruntimeconfig.cache
 D:\workie\SIH-2k25\Backend\SIH.ERP.Soap\obj\Debug\net8.0\ref\SIH.ERP.Soap.dll
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap\bin\Debug\net8.0\Scrutor.dll
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap\obj\Debug\net8.0\SIH.ERP.Soap.sourcelink.json

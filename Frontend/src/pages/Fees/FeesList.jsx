@@ -10,7 +10,7 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner'
 import ErrorAlert from '../../components/ui/ErrorAlert'
 import Modal from '../../components/ui/Modal'
 import Pagination from '../../components/ui/Pagination'
-import { formatCurrency, formatDate } from '../../utils/formatters'
+import { formatters } from '../../utils/formatters'
 import { STATUS_OPTIONS } from '../../utils/constants'
 
 const FeesList = () => {
@@ -68,7 +68,7 @@ const FeesList = () => {
 
   const getStudentName = (studentId) => {
     const student = students.find(s => s.student_id === studentId)
-    return student ? `${student.first_name} ${student.last_name}` : 'Unknown Student'
+    return student ? formatters.formatName(student.first_name, student.last_name) : 'Unknown Student'
   }
 
   const getStatusBadge = (status) => {
@@ -125,7 +125,7 @@ const FeesList = () => {
       label: 'AMOUNT',
       sortable: true,
       render: (fees) => (
-        <span className="font-medium text-gray-900">{formatCurrency(fees.amount)}</span>
+        <span className="font-medium text-gray-900">{formatters.formatCurrency(fees.amount)}</span>
       )
     },
     {
@@ -139,7 +139,7 @@ const FeesList = () => {
       label: 'DUE DATE',
       sortable: true,
       render: (fees) => (
-        <span className="text-gray-900">{formatDate(fees.due_date)}</span>
+        <span className="text-gray-900">{formatters.formatDate(fees.due_date)}</span>
       )
     },
     {
@@ -265,7 +265,7 @@ const FeesList = () => {
           {deleteModal.fees && (
             <div className="bg-gray-50 p-4 rounded-lg">
               <p><strong>Student:</strong> {getStudentName(deleteModal.fees.student_id)}</p>
-              <p><strong>Amount:</strong> {formatCurrency(deleteModal.fees.amount)}</p>
+              <p><strong>Amount:</strong> {formatters.formatCurrency(deleteModal.fees.amount)}</p>
               <p><strong>Status:</strong> {deleteModal.fees.status}</p>
             </div>
           )}

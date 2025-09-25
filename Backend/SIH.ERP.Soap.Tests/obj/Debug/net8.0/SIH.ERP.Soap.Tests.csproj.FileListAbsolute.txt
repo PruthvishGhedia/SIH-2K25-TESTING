@@ -1,0 +1,7 @@
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap.Tests\bin\Debug\net8.0\.msCoverageSourceRootsMapping_SIH.ERP.Soap.Tests
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap.Tests\obj\Debug\net8.0\SIH.ERP.Soap.Tests.csproj.AssemblyReference.cache
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap.Tests\obj\Debug\net8.0\SIH.ERP.Soap.Tests.GeneratedMSBuildEditorConfig.editorconfig
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap.Tests\obj\Debug\net8.0\SIH.ERP.Soap.Tests.AssemblyInfoInputs.cache
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap.Tests\obj\Debug\net8.0\SIH.ERP.Soap.Tests.AssemblyInfo.cs
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap.Tests\obj\Debug\net8.0\SIH.ERP.Soap.Tests.csproj.CoreCompileInputs.cache
+D:\workie\SIH-2k25\Backend\SIH.ERP.Soap.Tests\obj\Debug\net8.0\SIH.ERP.Soap.Tests.sourcelink.json

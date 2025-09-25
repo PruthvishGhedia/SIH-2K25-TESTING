@@ -1,59 +1,12 @@
 // API helper functions for common operations
-import {
-  studentService,
-  courseService,
-  departmentService,
-  userService,
-  feesService,
-  examService,
-  guardianService,
-  admissionService,
-  hostelService,
-  roomService,
-  hostelAllocationService,
-  libraryService,
-  bookIssueService,
-  resultService,
-  userRoleService,
-  contactDetailsService
-} from './soapClient';
-
-// Service mapping
-const serviceMap = {
-  student: studentService,
-  course: courseService,
-  department: departmentService,
-  user: userService,
-  fees: feesService,
-  exam: examService,
-  guardian: guardianService,
-  admission: admissionService,
-  hostel: hostelService,
-  room: roomService,
-  hostelAllocation: hostelAllocationService,
-  library: libraryService,
-  bookIssue: bookIssueService,
-  result: resultService,
-  userRole: userRoleService,
-  contactDetails: contactDetailsService
-};
+import { soapClient } from './soapClient';
 
 // Generic API operations
 export const apiHelpers = {
-  // Get service by entity name
-  getService: (entityName) => {
-    const service = serviceMap[entityName];
-    if (!service) {
-      throw new Error(`Service not found for entity: ${entityName}`);
-    }
-    return service;
-  },
-
   // Generic list operation with error handling
   list: async (entityName) => {
     try {
-      const service = apiHelpers.getService(entityName);
-      const response = await service.list();
+      const response = await soapClient.list(`/${entityName}`);
       return {
         success: true,
         data: response || [],
@@ -72,8 +25,7 @@ export const apiHelpers = {
   // Generic get operation
   get: async (entityName, id) => {
     try {
-      const service = apiHelpers.getService(entityName);
-      const response = await service.get(id);
+      const response = await soapClient.get(`/${entityName}`, id);
       return {
         success: true,
         data: response,
@@ -92,8 +44,7 @@ export const apiHelpers = {
   // Generic create operation
   create: async (entityName, data) => {
     try {
-      const service = apiHelpers.getService(entityName);
-      const response = await service.create(data);
+      const response = await soapClient.create(`/${entityName}`, data);
       return {
         success: true,
         data: response,
@@ -112,8 +63,7 @@ export const apiHelpers = {
   // Generic update operation
   update: async (entityName, id, data) => {
     try {
-      const service = apiHelpers.getService(entityName);
-      const response = await service.update(id, data);
+      const response = await soapClient.update(`/${entityName}`, id, data);
       return {
         success: true,
         data: response,
@@ -132,8 +82,7 @@ export const apiHelpers = {
   // Generic delete operation
   remove: async (entityName, id) => {
     try {
-      const service = apiHelpers.getService(entityName);
-      const response = await service.remove(id);
+      const response = await soapClient.delete(`/${entityName}`, id);
       return {
         success: true,
         data: response,

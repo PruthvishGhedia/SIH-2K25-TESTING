@@ -10,7 +10,7 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner'
 import ErrorAlert from '../../components/ui/ErrorAlert'
 import Modal from '../../components/ui/Modal'
 import Pagination from '../../components/ui/Pagination'
-import { formatDate, formatDateTime } from '../../utils/formatters'
+import { formatters } from '../../utils/formatters'
 
 const ExamList = () => {
   const { state, dispatch } = useAppContext()
@@ -125,8 +125,8 @@ const ExamList = () => {
       sortable: true,
       render: (exam) => (
         <div>
-          <div className="font-medium text-gray-900">{formatDate(exam.exam_date)}</div>
-          <div className="text-sm text-gray-500">{formatDateTime(exam.exam_date)}</div>
+          <div className="font-medium text-gray-900">{formatters.formatDate(exam.exam_date)}</div>
+          <div className="text-sm text-gray-500">{formatters.formatDateTime(exam.exam_date)}</div>
         </div>
       )
     },
@@ -205,10 +205,6 @@ const ExamList = () => {
             <Download className="h-4 w-4 mr-2" />
             Export
           </Button>
-          <Button variant="secondary" className="flex items-center">
-            <Calendar className="h-4 w-4 mr-2" />
-            Schedule View
-          </Button>
           <Link to="/exams/new">
             <Button className="flex items-center">
               <Plus className="h-4 w-4 mr-2" />
@@ -280,7 +276,7 @@ const ExamList = () => {
           {deleteModal.exam && (
             <div className="bg-gray-50 p-4 rounded-lg">
               <p><strong>Course:</strong> {getCourseName(deleteModal.exam.course_id)}</p>
-              <p><strong>Date:</strong> {formatDate(deleteModal.exam.exam_date)}</p>
+              <p><strong>Exam Date:</strong> {formatters.formatDate(deleteModal.exam.exam_date)}</p>
               <p><strong>Max Marks:</strong> {deleteModal.exam.max_marks}</p>
             </div>
           )}

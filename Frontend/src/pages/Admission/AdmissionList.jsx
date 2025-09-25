@@ -10,7 +10,7 @@ import LoadingSpinner from '../../components/ui/LoadingSpinner'
 import ErrorAlert from '../../components/ui/ErrorAlert'
 import Modal from '../../components/ui/Modal'
 import Pagination from '../../components/ui/Pagination'
-import { formatDate } from '../../utils/formatters'
+import { formatters } from '../../utils/formatters'
 import { STATUS_OPTIONS } from '../../utils/constants'
 
 const AdmissionList = () => {
@@ -125,7 +125,7 @@ const AdmissionList = () => {
       label: 'ADMISSION DATE',
       sortable: true,
       render: (admission) => (
-        <span className="text-gray-900">{formatDate(admission.admission_date)}</span>
+        <span className="text-gray-900">{formatters.formatDate(admission.admission_date)}</span>
       )
     },
     {
@@ -257,7 +257,7 @@ const AdmissionList = () => {
           {deleteModal.admission && (
             <div className="bg-gray-50 p-4 rounded-lg">
               <p><strong>Student:</strong> {getStudentName(deleteModal.admission.student_id)}</p>
-              <p><strong>Date:</strong> {formatDate(deleteModal.admission.admission_date)}</p>
+              <p><strong>Admission Date:</strong> {formatters.formatDate(deleteModal.admission.admission_date)}</p>
               <p><strong>Status:</strong> {deleteModal.admission.status}</p>
             </div>
           )}

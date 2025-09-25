@@ -21,6 +21,14 @@ import AdmissionForm from './pages/Admission/AdmissionForm'
 import HostelList from './pages/Hostel/HostelList'
 import HostelForm from './pages/Hostel/HostelForm'
 import LibraryList from './pages/Library/LibraryList'
+import FacultyList from './pages/Faculty/FacultyList'
+import FacultyForm from './pages/Faculty/FacultyForm'
+import EnrollmentList from './pages/Enrollment/EnrollmentList'
+import EnrollmentForm from './pages/Enrollment/EnrollmentForm'
+import AttendanceList from './pages/Attendance/AttendanceList'
+import AttendanceForm from './pages/Attendance/AttendanceForm'
+import PaymentList from './pages/Payment/PaymentList'
+import PaymentForm from './pages/Payment/PaymentForm'
 import { AppProvider } from './context/AppContext'
 
 // Placeholder component for entities still being implemented
@@ -103,6 +111,26 @@ function App() {
             <Route path="/library" element={<LibraryList />} />
             <Route path="/library/new" element={<PlaceholderList title="Add Book" />} />
             <Route path="/library/:id/edit" element={<PlaceholderList title="Edit Book" />} />
+            
+            {/* Faculty Routes */}
+            <Route path="/faculties" element={<FacultyList />} />
+            <Route path="/faculties/new" element={<FacultyForm />} />
+            <Route path="/faculties/:id/edit" element={<FacultyForm />} />
+            
+            {/* Enrollment Routes */}
+            <Route path="/enrollments" element={<EnrollmentList />} />
+            <Route path="/enrollments/new" element={<EnrollmentForm />} />
+            <Route path="/enrollments/:id/edit" element={<EnrollmentForm />} />
+            
+            {/* Attendance Routes */}
+            <Route path="/attendances" element={<AttendanceList />} />
+            <Route path="/attendances/new" element={<AttendanceForm />} />
+            <Route path="/attendances/:id/edit" element={<AttendanceForm />} />
+            
+            {/* Payment Routes */}
+            <Route path="/payments" element={<PaymentList />} />
+            <Route path="/payments/new" element={<PaymentForm />} />
+            <Route path="/payments/:id/edit" element={<PaymentForm />} />
             
             {/* Placeholder Routes for Remaining Entities */}
             <Route path="/rooms" element={<PlaceholderList title="Rooms" />} />

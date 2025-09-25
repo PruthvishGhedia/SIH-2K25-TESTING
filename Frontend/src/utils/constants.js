@@ -128,3 +128,62 @@ export const PAGINATION = {
   DEFAULT_PAGE_SIZE: 10,
   PAGE_SIZE_OPTIONS: [10, 25, 50, 100]
 };
+
+// Application constants
+export const APP_NAME = 'SIH ERP System';
+export const APP_VERSION = '1.0.0';
+
+// API Constants
+export const DEFAULT_PAGE_SIZE = 10;
+export const DEFAULT_PAGE_NUMBER = 0;
+
+// UI Constants
+export const THEME = {
+  LIGHT: 'light',
+  DARK: 'dark'
+};
+
+export const NOTIFICATION_TYPES = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+  WARNING: 'warning',
+  INFO: 'info'
+};
+
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500
+};
+
+// Date and Time Formats
+export const DATE_FORMAT = 'YYYY-MM-DD';
+export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
+
+// Local Storage Keys
+export const STORAGE_KEYS = {
+  THEME: 'sih_erp_theme',
+  USER_PREFERENCES: 'sih_erp_user_preferences'
+};
+
+// Validation Messages
+export const VALIDATION_MESSAGES = {
+  REQUIRED: 'This field is required',
+  INVALID_EMAIL: 'Please enter a valid email address',
+  INVALID_NUMBER: 'Please enter a valid number',
+  MIN_LENGTH: (min) => `Must be at least ${min} characters`,
+  MAX_LENGTH: (max) => `Must be no more than ${max} characters`
+};
+
+// Default error messages
+export const ERROR_MESSAGES = {
+  NETWORK_ERROR: 'Network error. Please check your connection.',
+  SERVER_ERROR: 'Server error. Please try again later.',
+  UNAUTHORIZED: 'You are not authorized to perform this action.',
+  NOT_FOUND: 'The requested resource was not found.',
+  UNKNOWN_ERROR: 'An unknown error occurred. Please try again.'
+};

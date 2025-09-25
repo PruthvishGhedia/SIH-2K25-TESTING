@@ -8,7 +8,7 @@ import Input from '../../components/ui/Input'
 import Select from '../../components/ui/Select'
 import LoadingSpinner from '../../components/ui/LoadingSpinner'
 import ErrorAlert from '../../components/ui/ErrorAlert'
-import { validateRequired, validateNumber, validateDate } from '../../utils/validators'
+import { validators } from '../../utils/validators'
 
 const ExamForm = () => {
   const navigate = useNavigate()
@@ -76,14 +76,14 @@ const ExamForm = () => {
     const newErrors = {}
 
     // Validate course selection
-    if (!validateRequired(formData.course_id)) {
+    if (validators.required(formData.course_id)) {
       newErrors.course_id = 'Course is required'
     }
 
     // Validate exam date
-    if (!validateRequired(formData.exam_date)) {
+    if (validators.required(formData.exam_date)) {
       newErrors.exam_date = 'Exam date is required'
-    } else if (!validateDate(formData.exam_date)) {
+    } else if (validators.date(formData.exam_date)) {
       newErrors.exam_date = 'Please enter a valid date'
     } else {
       const examDate = new Date(formData.exam_date)
@@ -95,14 +95,14 @@ const ExamForm = () => {
     }
 
     // Validate exam time
-    if (!validateRequired(formData.exam_time)) {
+    if (validators.required(formData.exam_time)) {
       newErrors.exam_time = 'Exam time is required'
     }
 
     // Validate max marks
-    if (!validateRequired(formData.max_marks)) {
+    if (validators.required(formData.max_marks)) {
       newErrors.max_marks = 'Maximum marks is required'
-    } else if (!validateNumber(formData.max_marks) || parseInt(formData.max_marks) <= 0) {
+    } else if (validators.number(formData.max_marks) || parseInt(formData.max_marks) <= 0) {
       newErrors.max_marks = 'Maximum marks must be a positive number'
     }
 
@@ -209,8 +209,8 @@ const ExamForm = () => {
             />
           </div>
 
-          {/* Date and Time */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Exam Details */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Exam Date <span className="text-red-500">*</span>
@@ -220,7 +220,6 @@ const ExamForm = () => {
                 value={formData.exam_date}
                 onChange={(e) => handleInputChange('exam_date', e.target.value)}
                 error={errors.exam_date}
-                min={new Date().toISOString().split('T')[0]}
               />
             </div>
 
@@ -235,21 +234,20 @@ const ExamForm = () => {
                 error={errors.exam_time}
               />
             </div>
-          </div>
 
-          {/* Maximum Marks */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Maximum Marks <span className="text-red-500">*</span>
-            </label>
-            <Input
-              type="number"
-              min="1"
-              value={formData.max_marks}
-              onChange={(e) => handleInputChange('max_marks', e.target.value)}
-              placeholder="Enter maximum marks"
-              error={errors.max_marks}
-            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Maximum Marks <span className="text-red-500">*</span>
+              </label>
+              <Input
+                type="number"
+                min="1"
+                value={formData.max_marks}
+                onChange={(e) => handleInputChange('max_marks', e.target.value)}
+                placeholder="Enter maximum marks"
+                error={errors.max_marks}
+              />
+            </div>
           </div>
 
           {/* Form Actions */}
@@ -278,24 +276,25 @@ const ExamForm = () => {
 
       {/* Additional Information */}
       <div className="card">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Exam Guidelines</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
+          <Calendar className="h-5 w-5 mr-2" />
+          Exam Information
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
           <div>
-            <h4 className="font-medium text-gray-900 mb-2">Scheduling Tips:</h4>
+            <h4 className="font-medium text-gray-900 mb-2">Scheduling Guidelines:</h4>
             <ul className="space-y-1">
-              <li>• Schedule exams at least 1 week in advance</li>
-              <li>• Avoid scheduling multiple exams on the same day</li>
-              <li>• Consider student workload and holidays</li>
-              <li>• Allow sufficient time between exams</li>
+              <li>• Schedule exams at least 2 weeks in advance</li>
+              <li>• Avoid scheduling during holidays or breaks</li>
+              <li>• Ensure adequate time between consecutive exams</li>
             </ul>
           </div>
           <div>
-            <h4 className="font-medium text-gray-900 mb-2">Assessment Standards:</h4>
+            <h4 className="font-medium text-gray-900 mb-2">Exam Details:</h4>
             <ul className="space-y-1">
-              <li>• Set appropriate maximum marks</li>
-              <li>• Ensure marks align with course credit</li>
-              <li>• Consider exam duration when setting marks</li>
-              <li>• Maintain consistency across similar courses</li>
+              <li>• Maximum marks should reflect the exam's weightage</li>
+              <li>• Time should be appropriate for the exam pattern</li>
+              <li>• Date cannot be in the past</li>
             </ul>
           </div>
         </div>

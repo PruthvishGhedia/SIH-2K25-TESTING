@@ -8,7 +8,7 @@ import Input from '../../components/ui/Input'
 import Select from '../../components/ui/Select'
 import LoadingSpinner from '../../components/ui/LoadingSpinner'
 import ErrorAlert from '../../components/ui/ErrorAlert'
-import { validateRequired, validateEmail, validatePhone } from '../../utils/validators'
+import { validators } from '../../utils/validators'
 
 const GuardianForm = () => {
   const navigate = useNavigate()
@@ -77,31 +77,31 @@ const GuardianForm = () => {
     const newErrors = {}
 
     // Validate first name
-    if (!validateRequired(formData.first_name)) {
+    if (validators.required(formData.first_name)) {
       newErrors.first_name = 'First name is required'
     }
 
     // Validate last name
-    if (!validateRequired(formData.last_name)) {
+    if (validators.required(formData.last_name)) {
       newErrors.last_name = 'Last name is required'
     }
 
     // Validate email
-    if (!validateRequired(formData.email)) {
+    if (validators.required(formData.email)) {
       newErrors.email = 'Email is required'
-    } else if (!validateEmail(formData.email)) {
+    } else if (validators.email(formData.email)) {
       newErrors.email = 'Please enter a valid email address'
     }
 
     // Validate phone
-    if (!validateRequired(formData.phone)) {
+    if (validators.required(formData.phone)) {
       newErrors.phone = 'Phone number is required'
-    } else if (!validatePhone(formData.phone)) {
+    } else if (validators.phone(formData.phone)) {
       newErrors.phone = 'Please enter a valid phone number'
     }
 
     // Validate student selection
-    if (!validateRequired(formData.student_id)) {
+    if (validators.required(formData.student_id)) {
       newErrors.student_id = 'Student is required'
     }
 
@@ -222,19 +222,10 @@ const GuardianForm = () => {
                   error={errors.last_name}
                 />
               </div>
-            </div>
-          </div>
 
-          {/* Contact Information */}
-          <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
-              <Phone className="h-5 w-5 mr-2" />
-              Contact Information
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address <span className="text-red-500">*</span>
+                  Email <span className="text-red-500">*</span>
                 </label>
                 <Input
                   type="email"
@@ -247,7 +238,7 @@ const GuardianForm = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Phone Number <span className="text-red-500">*</span>
+                  Phone <span className="text-red-500">*</span>
                 </label>
                 <Input
                   type="tel"
@@ -262,20 +253,23 @@ const GuardianForm = () => {
 
           {/* Student Association */}
           <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-4">
+            <h3 className="text-lg font-medium text-gray-900 mb-4 flex items-center">
+              <User className="h-5 w-5 mr-2" />
               Student Association
             </h3>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Student <span className="text-red-500">*</span>
-              </label>
-              <Select
-                value={formData.student_id}
-                onChange={(value) => handleInputChange('student_id', value)}
-                options={getStudentOptions()}
-                placeholder="Select a student"
-                error={errors.student_id}
-              />
+            <div className="grid grid-cols-1 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Student <span className="text-red-500">*</span>
+                </label>
+                <Select
+                  value={formData.student_id}
+                  onChange={(value) => handleInputChange('student_id', value)}
+                  options={getStudentOptions()}
+                  placeholder="Select a student"
+                  error={errors.student_id}
+                />
+              </div>
             </div>
           </div>
 
@@ -305,24 +299,22 @@ const GuardianForm = () => {
 
       {/* Additional Information */}
       <div className="card">
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Guardian Information</h3>
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Additional Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
           <div>
-            <h4 className="font-medium text-gray-900 mb-2">Contact Guidelines:</h4>
+            <h4 className="font-medium text-gray-900 mb-2">Contact Information:</h4>
             <ul className="space-y-1">
-              <li>• Provide accurate contact information</li>
-              <li>• Ensure phone number is reachable</li>
-              <li>• Use primary email for communications</li>
-              <li>• Update information when changed</li>
+              <li>• Ensure email address is valid for communication</li>
+              <li>• Provide primary contact phone number</li>
+              <li>• Keep contact information up to date</li>
             </ul>
           </div>
           <div>
-            <h4 className="font-medium text-gray-900 mb-2">Privacy & Security:</h4>
+            <h4 className="font-medium text-gray-900 mb-2">Student Association:</h4>
             <ul className="space-y-1">
-              <li>• Guardian information is confidential</li>
-              <li>• Used only for emergency contacts</li>
-              <li>• Academic progress communications</li>
-              <li>• Administrative notifications</li>
+              <li>• Each guardian must be associated with one student</li>
+              <li>• Student can have multiple guardians</li>
+              <li>• Update association if student changes</li>
             </ul>
           </div>
         </div>
