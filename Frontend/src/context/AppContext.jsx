@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useState } from 'react';
 
 // Initial state for the application
 const initialState = {
   // UI state
-  sidebarOpen: true,
   loading: false,
   error: null,
   notifications: [],
@@ -30,9 +29,6 @@ const initialState = {
 // Reducer function
 const appReducer = (state, action) => {
   switch (action.type) {
-    case 'TOGGLE_SIDEBAR':
-      return { ...state, sidebarOpen: !state.sidebarOpen };
-
     case 'SET_LOADING':
       return { ...state, loading: action.payload };
 
@@ -233,9 +229,21 @@ const AppContext = createContext();
 // Context provider component
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const value = {
+    state,
+    dispatch,
+    isSidebarOpen,
+    toggleSidebar
+  };
 
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
+    <AppContext.Provider value={value}>
       {children}
     </AppContext.Provider>
   );

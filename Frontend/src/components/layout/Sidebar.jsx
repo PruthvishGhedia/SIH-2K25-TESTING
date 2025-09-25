@@ -64,9 +64,12 @@ const menuItems = [
 ];
 
 const Sidebar = () => {
-  const { state, actions } = useAppContext();
-  const { sidebarOpen } = state;
+  const context = useAppContext();
+  const { isSidebarOpen, toggleSidebar } = context || {};
   const location = useLocation();
+
+  // Fallback if context is not available
+  const sidebarOpen = isSidebarOpen !== undefined ? isSidebarOpen : true;
 
   const isActive = (path) => {
     if (path === '/dashboard') {
@@ -81,7 +84,7 @@ const Sidebar = () => {
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-gray-600 bg-opacity-75 z-20 lg:hidden"
-          onClick={actions.toggleSidebar}
+          onClick={toggleSidebar}
         />
       )}
 
@@ -103,7 +106,7 @@ const Sidebar = () => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={actions.toggleSidebar}
+              onClick={toggleSidebar}
               className="lg:hidden"
             >
               <X className="h-5 w-5" />
@@ -128,8 +131,8 @@ const Sidebar = () => {
                     }`}
                     onClick={() => {
                       // Close sidebar on mobile after navigation
-                      if (window.innerWidth < 1024) {
-                        actions.toggleSidebar();
+                      if (window.innerWidth < 1024 && toggleSidebar) {
+                        toggleSidebar();
                       }
                     }}
                   >

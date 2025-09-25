@@ -5,8 +5,8 @@ import Button from '../ui/Button';
 import SearchBar from '../ui/SearchBar';
 
 const Header = () => {
-  const { state, actions } = useAppContext();
-  const { sidebarOpen } = state;
+  const context = useAppContext();
+  const { toggleSidebar } = context || {};
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
@@ -16,8 +16,9 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={actions.toggleSidebar}
+            onClick={toggleSidebar}
             className="lg:hidden"
+            disabled={!toggleSidebar}
           >
             <Menu className="h-6 w-6" />
           </Button>
