@@ -7,7 +7,6 @@ import SearchBar from '../ui/SearchBar';
 const Header = () => {
   const context = useAppContext();
   const { toggleSidebar } = context || {};
-
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       <div className="flex items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
@@ -17,8 +16,9 @@ const Header = () => {
             variant="ghost"
             size="icon"
             onClick={toggleSidebar}
-            className="lg:hidden"
+            className="hover:bg-gray-100"
             disabled={!toggleSidebar}
+            title="Toggle Sidebar"
           >
             <Menu className="h-6 w-6" />
           </Button>
