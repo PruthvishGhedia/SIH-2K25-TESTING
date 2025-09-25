@@ -13,9 +13,37 @@ public class GuardianService : IGuardianService
         _repo = repo;
     }
 
-    public Task<Guardian> CreateAsync(Guardian item) => _repo.CreateAsync(item);
-    public Task<Guardian?> GetAsync(int guardian_id) => _repo.GetAsync(guardian_id);
+    public async Task<Guardian> CreateAsync(Guardian item)
+    {
+        return await _repo.CreateAsync(item);
+    }
+    
+    public async Task<Guardian?> GetAsync(string guardian_id)
+    {
+        if (int.TryParse(guardian_id, out int id))
+        {
+            return await _repo.GetAsync(id);
+        }
+        return null;
+    }
+    
     public Task<IEnumerable<Guardian>> ListAsync(int limit = 100, int offset = 0) => _repo.ListAsync(limit, offset);
-    public Task<Guardian?> RemoveAsync(int guardian_id) => _repo.RemoveAsync(guardian_id);
-    public Task<Guardian?> UpdateAsync(int guardian_id, Guardian item) => _repo.UpdateAsync(guardian_id, item);
+    
+    public async Task<Guardian?> RemoveAsync(string guardian_id)
+    {
+        if (int.TryParse(guardian_id, out int id))
+        {
+            return await _repo.RemoveAsync(id);
+        }
+        return null;
+    }
+    
+    public async Task<Guardian?> UpdateAsync(string guardian_id, Guardian item)
+    {
+        if (int.TryParse(guardian_id, out int id))
+        {
+            return await _repo.UpdateAsync(id, item);
+        }
+        return null;
+    }
 }

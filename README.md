@@ -37,6 +37,66 @@ A comprehensive Educational Resource Planning (ERP) system built with ASP.NET Co
 - Library, Book Issues, Results
 - User Roles, Contact Details
 
+## API Documentation
+
+Comprehensive API documentation is available through Swagger UI and additional documentation files:
+
+### Swagger UI
+- **URL**: http://localhost:5000/swagger
+- **Description**: Interactive API documentation for all REST endpoints
+- **Features**: 
+  - Detailed operation descriptions
+  - Parameter and response documentation
+  - Example requests and responses
+  - Authentication support
+
+### REST API Endpoints
+The system provides REST endpoints for API information and health checks:
+- **API Version**: `GET /api/version`
+- **API Documentation**: `GET /api/documentation`
+- **Health Check**: `GET /api/health`
+- **Services List**: `GET /api/services`
+- **Services Details**: `GET /api/services/details`
+
+### SOAP API Documentation
+All 23 SOAP services are thoroughly documented:
+- [Backend/SIH.ERP.Soap/SOAP_API_DOCUMENTATION.md](Backend/SIH.ERP.Soap/SOAP_API_DOCUMENTATION.md) - Complete documentation for all SOAP services
+- Each service endpoint is clearly listed with available operations
+- Standard CRUD operations are consistent across all services
+
+### SOAP Service Endpoints
+The system provides 23 SOAP services accessible at their respective endpoints:
+1. **Admission Service**: `/soap/admission`
+2. **Student Service**: `/soap/student`
+3. **Department Service**: `/soap/department`
+4. **Course Service**: `/soap/course`
+5. **Subject Service**: `/soap/subject`
+6. **Role Service**: `/soap/role`
+7. **User Service**: `/soap/user`
+8. **Guardian Service**: `/soap/guardian`
+9. **Hostel Service**: `/soap/hostel`
+10. **Room Service**: `/soap/room`
+11. **Hostel Allocation Service**: `/soap/hostelallocation`
+12. **Fees Service**: `/soap/fees`
+13. **Library Service**: `/soap/library`
+14. **Book Issue Service**: `/soap/bookissue`
+15. **Exam Service**: `/soap/exam`
+16. **Result Service**: `/soap/result`
+17. **User Role Service**: `/soap/userrole`
+18. **Contact Details Service**: `/soap/contactdetails`
+19. **Faculty Service**: `/soap/faculty`
+20. **Enrollment Service**: `/soap/enrollment`
+21. **Attendance Service**: `/soap/attendance`
+22. **Payment Service**: `/soap/payment`
+23. **Generic CRUD Service**: `/soap` (restricted access)
+
+Each service supports the following standard operations:
+- `ListAsync` - Retrieve a list of items with pagination
+- `GetAsync` - Retrieve a specific item by ID
+- `CreateAsync` - Create a new item
+- `UpdateAsync` - Update an existing item
+- `RemoveAsync` - Delete an item by ID
+
 ## Quick Start
 
 ### Prerequisites
@@ -198,87 +258,3 @@ SIH-2k25/
 ### Backend Configuration
 - **DATABASE_URL**: PostgreSQL connection string
 - **CORS_POLICY**: Configured for localhost:5173
-- **Health Checks**: Enabled with database connectivity check
-
-### Frontend Configuration
-- **VITE_BACKEND_BASE**: Backend URL (default: http://localhost:5000)
-- **CORS**: Configured to allow credentials
-
-## Security Features
-
-- ✅ CORS policy enforcement
-- ✅ SQL injection prevention with parameterized queries
-- ✅ Table allowlisting in GenericCrudService
-- ✅ Input validation in services
-- ✅ Error sanitization in production
-- ✅ Scoped database connections
-
-## Development Workflow
-
-1. **Backend Development**
-   - Make changes to services/repositories
-   - Test SOAP endpoints with curl
-   - Verify health checks
-
-2. **Frontend Development**
-   - Use SOAP client for API calls
-   - Test with browser dev tools
-   - Verify CORS configuration
-   - Check error handling
-
-3. **Integration Testing**
-   - Start both backend and frontend
-   - Test CRUD operations end-to-end
-   - Verify data persistence
-   - Check error scenarios
-
-## Troubleshooting
-
-### Common Issues
-
-1. **CORS Errors**
-   - Ensure backend CORS policy includes frontend URL
-   - Check that credentials are included in requests
-
-2. **SOAP Parsing Errors**
-   - Verify XML envelope format
-   - Check SOAPAction headers
-   - Ensure proper namespace declarations
-
-3. **Database Connection Issues**
-   - Verify DATABASE_URL environment variable
-   - Check PostgreSQL is running
-   - Ensure database exists and is accessible
-
-4. **Health Check Failures**
-   - Check database connectivity
-   - Verify connection string format
-   - Check PostgreSQL service status
-
-## Production Deployment
-
-### Backend
-- Use environment variables for configuration
-- Enable HTTPS in production
-- Configure proper CORS origins
-- Use connection pooling
-- Set up logging and monitoring
-
-### Frontend
-- Build for production: `npm run build`
-- Serve static files from web server
-- Configure proper backend URL
-- Enable HTTPS
-- Set up CDN if needed
-
-## Contributing
-
-1. Create feature branch
-2. Make changes with tests
-3. Run full test suite
-4. Update documentation
-5. Submit pull request
-
-## License
-
-This project is part of the SIH (Smart India Hackathon) initiative.

@@ -13,9 +13,37 @@ public class HostelAllocationService : IHostelAllocationService
         _repo = repo;
     }
 
-    public Task<HostelAllocation> CreateAsync(HostelAllocation item) => _repo.CreateAsync(item);
-    public Task<HostelAllocation?> GetAsync(int allocation_id) => _repo.GetAsync(allocation_id);
+    public async Task<HostelAllocation> CreateAsync(HostelAllocation item)
+    {
+        return await _repo.CreateAsync(item);
+    }
+    
+    public async Task<HostelAllocation?> GetAsync(string allocation_id)
+    {
+        if (int.TryParse(allocation_id, out int id))
+        {
+            return await _repo.GetAsync(id);
+        }
+        return null;
+    }
+    
     public Task<IEnumerable<HostelAllocation>> ListAsync(int limit = 100, int offset = 0) => _repo.ListAsync(limit, offset);
-    public Task<HostelAllocation?> RemoveAsync(int allocation_id) => _repo.RemoveAsync(allocation_id);
-    public Task<HostelAllocation?> UpdateAsync(int allocation_id, HostelAllocation item) => _repo.UpdateAsync(allocation_id, item);
+    
+    public async Task<HostelAllocation?> RemoveAsync(string allocation_id)
+    {
+        if (int.TryParse(allocation_id, out int id))
+        {
+            return await _repo.RemoveAsync(id);
+        }
+        return null;
+    }
+    
+    public async Task<HostelAllocation?> UpdateAsync(string allocation_id, HostelAllocation item)
+    {
+        if (int.TryParse(allocation_id, out int id))
+        {
+            return await _repo.UpdateAsync(id, item);
+        }
+        return null;
+    }
 }

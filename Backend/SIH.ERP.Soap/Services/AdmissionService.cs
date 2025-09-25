@@ -13,9 +13,37 @@ public class AdmissionService : IAdmissionService
         _repo = repo;
     }
 
-    public Task<Admission> CreateAsync(Admission item) => _repo.CreateAsync(item);
-    public Task<Admission?> GetAsync(int admission_id) => _repo.GetAsync(admission_id);
+    public async Task<Admission> CreateAsync(Admission item)
+    {
+        return await _repo.CreateAsync(item);
+    }
+    
+    public async Task<Admission?> GetAsync(string admission_id)
+    {
+        if (int.TryParse(admission_id, out int id))
+        {
+            return await _repo.GetAsync(id);
+        }
+        return null;
+    }
+    
     public Task<IEnumerable<Admission>> ListAsync(int limit = 100, int offset = 0) => _repo.ListAsync(limit, offset);
-    public Task<Admission?> RemoveAsync(int admission_id) => _repo.RemoveAsync(admission_id);
-    public Task<Admission?> UpdateAsync(int admission_id, Admission item) => _repo.UpdateAsync(admission_id, item);
+    
+    public async Task<Admission?> RemoveAsync(string admission_id)
+    {
+        if (int.TryParse(admission_id, out int id))
+        {
+            return await _repo.RemoveAsync(id);
+        }
+        return null;
+    }
+    
+    public async Task<Admission?> UpdateAsync(string admission_id, Admission item)
+    {
+        if (int.TryParse(admission_id, out int id))
+        {
+            return await _repo.UpdateAsync(id, item);
+        }
+        return null;
+    }
 }

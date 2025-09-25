@@ -2,30 +2,78 @@ using CoreWCF;
 using SIH.ERP.Soap.Contracts;
 using SIH.ERP.Soap.Models;
 using SIH.ERP.Soap.Repositories;
+using Microsoft.AspNetCore.SignalR;
+using SIH.ERP.Soap.Hubs;
 
 namespace SIH.ERP.Soap.Services;
 
 public class PaymentService : IPaymentService
 {
     private readonly IPaymentRepository _repo;
-    public PaymentService(IPaymentRepository repo) { _repo = repo; }
+    private readonly IHubContext<DashboardHub> _hubContext;
+    
+    public PaymentService(IPaymentRepository repo, IHubContext<DashboardHub> hubContext) 
+    { 
+        _repo = repo; 
+        _hubContext = hubContext;
+    }
 
     public Task<IEnumerable<Payment>> ListAsync(int limit = 100, int offset = 0) => _repo.ListAsync(limit, offset);
-    public Task<Payment?> GetAsync(int payment_id) => _repo.GetAsync(payment_id);
+    
+    public async Task<Payment?> GetAsync(string payment_id)
+    {
+        if (int.TryParse(payment_id, out int id))
+        {
+            return await _repo.GetAsync(id);
+        }
+        return null;
+    }
 
     public async Task<Payment> CreateAsync(Payment item)
     {
         Validate(item);
-        return await _repo.CreateAsync(item);
+        var payment = await _repo.CreateAsync(item);
+        
+        // Send real-time update
+        await _hubContext.Clients.All.SendAsync("ReceivePaymentUpdate", payment);
+        
+        return payment;
     }
 
-    public async Task<Payment?> UpdateAsync(int payment_id, Payment item)
+    public async Task<Payment?> UpdateAsync(string payment_id, Payment item)
     {
-        Validate(item);
-        return await _repo.UpdateAsync(payment_id, item);
+        if (int.TryParse(payment_id, out int id))
+        {
+            Validate(item);
+            var payment = await _repo.UpdateAsync(id, item);
+            
+            // Send real-time update
+            if (payment != null)
+            {
+                await _hubContext.Clients.All.SendAsync("ReceivePaymentUpdate", payment);
+            }
+            
+            return payment;
+        }
+        return null;
     }
 
-    public Task<Payment?> RemoveAsync(int payment_id) => _repo.RemoveAsync(payment_id);
+    public async Task<Payment?> RemoveAsync(string payment_id)
+    {
+        if (int.TryParse(payment_id, out int id))
+        {
+            var payment = await _repo.RemoveAsync(id);
+            
+            // Send real-time update
+            if (payment != null)
+            {
+                await _hubContext.Clients.All.SendAsync("ReceivePaymentUpdate", payment);
+            }
+            
+            return payment;
+        }
+        return null;
+    }
 
     private void Validate(Payment p)
     {
@@ -34,4 +82,3 @@ public class PaymentService : IPaymentService
         if (string.IsNullOrWhiteSpace(p.payment_date)) throw new FaultException("payment_date is required");
     }
 }
-

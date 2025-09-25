@@ -4,7 +4,16 @@ using System.Data;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public class FeesRepository
+public interface IFeesRepository
+{
+    Task<IEnumerable<Fees>> ListAsync(int limit, int offset);
+    Task<Fees?> GetAsync(int id);
+    Task<Fees> CreateAsync(Fees item);
+    Task<Fees?> UpdateAsync(int id, Fees item);
+    Task<Fees?> RemoveAsync(int id);
+}
+
+public class FeesRepository : IFeesRepository
 {
     private readonly IDbConnection _db;
     public FeesRepository(IDbConnection db)

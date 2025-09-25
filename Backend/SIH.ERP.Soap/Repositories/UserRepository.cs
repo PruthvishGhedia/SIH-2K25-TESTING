@@ -4,7 +4,16 @@ using System.Data;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public class UserRepository
+public interface IUserRepository
+{
+    Task<IEnumerable<User>> ListAsync(int limit, int offset);
+    Task<User?> GetAsync(int id);
+    Task<User> CreateAsync(User item);
+    Task<User?> UpdateAsync(int id, User item);
+    Task<User?> RemoveAsync(int id);
+}
+
+public class UserRepository : IUserRepository
 {
     private readonly IDbConnection _db;
     public UserRepository(IDbConnection db)

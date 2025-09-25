@@ -4,7 +4,16 @@ using System.Data;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public class CourseRepository
+public interface ICourseRepository
+{
+    Task<IEnumerable<Course>> ListAsync(int limit, int offset);
+    Task<Course?> GetAsync(int id);
+    Task<Course> CreateAsync(Course item);
+    Task<Course?> UpdateAsync(int id, Course item);
+    Task<Course?> RemoveAsync(int id);
+}
+
+public class CourseRepository : ICourseRepository
 {
     private readonly IDbConnection _db;
     public CourseRepository(IDbConnection db) { _db = db; }
@@ -15,4 +24,3 @@ public class CourseRepository
     public Task<Course?> UpdateAsync(int id, Course item) => _db.QueryFirstOrDefaultAsync<Course>("UPDATE course SET \"dept_id\"=@dept_id, \"course_name\"=@course_name, \"course_code\"=@course_code WHERE \"course_id\"=@id RETURNING *", new { id, item.dept_id, item.course_name, item.course_code });
     public Task<Course?> RemoveAsync(int id) => _db.QueryFirstOrDefaultAsync<Course>("DELETE FROM course WHERE \"course_id\"=@id RETURNING *", new { id });
 }
-

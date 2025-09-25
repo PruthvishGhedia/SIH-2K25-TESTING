@@ -19,8 +19,8 @@ bld/
 # Visual Studio files
 *.suo
 .claude
-.bin/
-.obj
+bin
+obj
 *.user
 *.userosscache
 *.sln.docstates

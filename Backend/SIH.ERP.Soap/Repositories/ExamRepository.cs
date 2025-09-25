@@ -4,7 +4,16 @@ using System.Data;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public class ExamRepository
+public interface IExamRepository
+{
+    Task<IEnumerable<Exam>> ListAsync(int limit, int offset);
+    Task<Exam?> GetAsync(int id);
+    Task<Exam> CreateAsync(Exam item);
+    Task<Exam?> UpdateAsync(int id, Exam item);
+    Task<Exam?> RemoveAsync(int id);
+}
+
+public class ExamRepository : IExamRepository
 {
     private readonly IDbConnection _db;
     public ExamRepository(IDbConnection db)

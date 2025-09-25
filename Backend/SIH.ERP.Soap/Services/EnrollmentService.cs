@@ -2,30 +2,78 @@ using CoreWCF;
 using SIH.ERP.Soap.Contracts;
 using SIH.ERP.Soap.Models;
 using SIH.ERP.Soap.Repositories;
+using Microsoft.AspNetCore.SignalR;
+using SIH.ERP.Soap.Hubs;
 
 namespace SIH.ERP.Soap.Services;
 
 public class EnrollmentService : IEnrollmentService
 {
     private readonly IEnrollmentRepository _repo;
-    public EnrollmentService(IEnrollmentRepository repo) { _repo = repo; }
+    private readonly IHubContext<DashboardHub> _hubContext;
+    
+    public EnrollmentService(IEnrollmentRepository repo, IHubContext<DashboardHub> hubContext) 
+    { 
+        _repo = repo; 
+        _hubContext = hubContext;
+    }
 
     public Task<IEnumerable<Enrollment>> ListAsync(int limit = 100, int offset = 0) => _repo.ListAsync(limit, offset);
-    public Task<Enrollment?> GetAsync(int enrollment_id) => _repo.GetAsync(enrollment_id);
+    
+    public async Task<Enrollment?> GetAsync(string enrollment_id)
+    {
+        if (int.TryParse(enrollment_id, out int id))
+        {
+            return await _repo.GetAsync(id);
+        }
+        return null;
+    }
 
     public async Task<Enrollment> CreateAsync(Enrollment item)
     {
         Validate(item);
-        return await _repo.CreateAsync(item);
+        var enrollment = await _repo.CreateAsync(item);
+        
+        // Send real-time update
+        await _hubContext.Clients.All.SendAsync("ReceiveEnrollmentUpdate", enrollment);
+        
+        return enrollment;
     }
 
-    public async Task<Enrollment?> UpdateAsync(int enrollment_id, Enrollment item)
+    public async Task<Enrollment?> UpdateAsync(string enrollment_id, Enrollment item)
     {
-        Validate(item);
-        return await _repo.UpdateAsync(enrollment_id, item);
+        if (int.TryParse(enrollment_id, out int id))
+        {
+            Validate(item);
+            var enrollment = await _repo.UpdateAsync(id, item);
+            
+            // Send real-time update
+            if (enrollment != null)
+            {
+                await _hubContext.Clients.All.SendAsync("ReceiveEnrollmentUpdate", enrollment);
+            }
+            
+            return enrollment;
+        }
+        return null;
     }
 
-    public Task<Enrollment?> RemoveAsync(int enrollment_id) => _repo.RemoveAsync(enrollment_id);
+    public async Task<Enrollment?> RemoveAsync(string enrollment_id)
+    {
+        if (int.TryParse(enrollment_id, out int id))
+        {
+            var enrollment = await _repo.RemoveAsync(id);
+            
+            // Send real-time update
+            if (enrollment != null)
+            {
+                await _hubContext.Clients.All.SendAsync("ReceiveEnrollmentUpdate", enrollment);
+            }
+            
+            return enrollment;
+        }
+        return null;
+    }
 
     private void Validate(Enrollment e)
     {
@@ -34,4 +82,3 @@ public class EnrollmentService : IEnrollmentService
         if (string.IsNullOrWhiteSpace(e.enrollment_date)) throw new FaultException("enrollment_date is required");
     }
 }
-

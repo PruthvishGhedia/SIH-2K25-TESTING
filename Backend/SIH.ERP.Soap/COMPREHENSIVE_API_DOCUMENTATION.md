@@ -8,6 +8,7 @@ This document provides comprehensive documentation for all SOAP services availab
 ### 1. Student Service
 **Endpoint**: `/soap/student`
 **Interface**: `IStudentService`
+**Data Source**: Student application forms, admission records, and enrollment data
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve students with pagination
@@ -19,6 +20,7 @@ Operations:
 ### 2. Department Service
 **Endpoint**: `/soap/department`
 **Interface**: `IDepartmentService`
+**Data Source**: Institutional organizational structure and administrative planning system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve departments with pagination
@@ -30,6 +32,7 @@ Operations:
 ### 3. Course Service
 **Endpoint**: `/soap/course`
 **Interface**: `ICourseService`
+**Data Source**: Academic planning and curriculum development system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve courses with pagination
@@ -41,6 +44,7 @@ Operations:
 ### 4. Role Service
 **Endpoint**: `/soap/role`
 **Interface**: `IRoleService`
+**Data Source**: System administration and security configuration
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve roles with pagination
@@ -52,6 +56,7 @@ Operations:
 ### 5. User Service
 **Endpoint**: `/soap/user`
 **Interface**: `IUserService`
+**Data Source**: User registration forms and account management system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve users with pagination
@@ -63,17 +68,19 @@ Operations:
 ### 6. Subject Service
 **Endpoint**: `/soap/subject`
 **Interface**: `ISubjectService`
+**Data Source**: Academic curriculum and course catalog system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve subjects with pagination
-- `GetAsync(int subject_id)` - Retrieve a specific subject by ID
+- `GetAsync(int subject_code)` - Retrieve a specific subject by ID
 - `CreateAsync(Subject item)` - Create a new subject record
-- `UpdateAsync(int subject_id, Subject item)` - Update an existing subject record
-- `RemoveAsync(int subject_id)` - Remove a subject record by ID
+- `UpdateAsync(int subject_code, Subject item)` - Update an existing subject record
+- `RemoveAsync(int subject_code)` - Remove a subject record by ID
 
 ### 7. Guardian Service
 **Endpoint**: `/soap/guardian`
 **Interface**: `IGuardianService`
+**Data Source**: Student application forms and family information system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve guardians with pagination
@@ -85,6 +92,7 @@ Operations:
 ### 8. Admission Service
 **Endpoint**: `/soap/admission`
 **Interface**: `IAdmissionService`
+**Data Source**: Admission form data submitted by prospective students
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve admissions with pagination
@@ -96,6 +104,7 @@ Operations:
 ### 9. Hostel Service
 **Endpoint**: `/soap/hostel`
 **Interface**: `IHostelService`
+**Data Source**: Administrative data about hostel facilities managed by the institution
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve hostels with pagination
@@ -107,6 +116,7 @@ Operations:
 ### 10. Room Service
 **Endpoint**: `/soap/room`
 **Interface**: `IRoomService`
+**Data Source**: Administrative data about hostel room facilities
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve rooms with pagination
@@ -118,6 +128,7 @@ Operations:
 ### 11. Hostel Allocation Service
 **Endpoint**: `/soap/hostelallocation`
 **Interface**: `IHostelAllocationService`
+**Data Source**: Hostel management and student accommodation system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve hostel allocations with pagination
@@ -129,6 +140,7 @@ Operations:
 ### 12. Fees Service
 **Endpoint**: `/soap/fees`
 **Interface**: `IFeesService`
+**Data Source**: Fee structure defined by the institution and payment processing system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve fees records with pagination
@@ -140,6 +152,7 @@ Operations:
 ### 13. Library Service
 **Endpoint**: `/soap/library`
 **Interface**: `ILibraryService`
+**Data Source**: Library acquisition and cataloging system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve library items with pagination
@@ -151,6 +164,7 @@ Operations:
 ### 14. Book Issue Service
 **Endpoint**: `/soap/bookissue`
 **Interface**: `IBookIssueService`
+**Data Source**: Library lending and circulation system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve book issues with pagination
@@ -162,6 +176,7 @@ Operations:
 ### 15. Exam Service
 **Endpoint**: `/soap/exam`
 **Interface**: `IExamService`
+**Data Source**: Academic examination scheduling system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve exams with pagination
@@ -173,6 +188,7 @@ Operations:
 ### 16. Result Service
 **Endpoint**: `/soap/result`
 **Interface**: `IResultService`
+**Data Source**: Academic examination result processing system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve results with pagination
@@ -184,6 +200,7 @@ Operations:
 ### 17. User Role Service
 **Endpoint**: `/soap/userrole`
 **Interface**: `IUserRoleService`
+**Data Source**: System administration and user management system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve user roles with pagination
@@ -195,6 +212,7 @@ Operations:
 ### 18. Contact Details Service
 **Endpoint**: `/soap/contactdetails`
 **Interface**: `IContactDetailsService`
+**Data Source**: User profile management and contact information system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve contact details with pagination
@@ -206,6 +224,7 @@ Operations:
 ### 19. Faculty Service
 **Endpoint**: `/soap/faculty`
 **Interface**: `IFacultyService`
+**Data Source**: Human resources and faculty hiring system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve faculty members with pagination
@@ -217,6 +236,7 @@ Operations:
 ### 20. Enrollment Service
 **Endpoint**: `/soap/enrollment`
 **Interface**: `IEnrollmentService`
+**Data Source**: Student enrollment and academic registration system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve enrollments with pagination
@@ -228,6 +248,7 @@ Operations:
 ### 21. Attendance Service
 **Endpoint**: `/soap/attendance`
 **Interface**: `IAttendanceService`
+**Data Source**: Academic attendance tracking system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve attendance records with pagination
@@ -239,6 +260,7 @@ Operations:
 ### 22. Payment Service
 **Endpoint**: `/soap/payment`
 **Interface**: `IPaymentService`
+**Data Source**: Financial transaction processing system
 
 Operations:
 - `ListAsync(int limit = 100, int offset = 0)` - Retrieve payments with pagination
@@ -250,6 +272,7 @@ Operations:
 ## Generic CRUD Service
 **Endpoint**: `/soap`
 **Interface**: `IGenericCrud`
+**Data Source**: Various database tables with restricted access for security
 
 A generic service that provides CRUD operations for any table in the database. This service is restricted to a predefined list of allowed tables for security purposes.
 
@@ -273,5 +296,6 @@ All models in the system are documented with XML comments that appear in the Swa
 - Data types
 - Required fields
 - Example values
+- Data source information
 
 This comprehensive documentation allows developers to understand and use the API effectively without needing to examine the source code.

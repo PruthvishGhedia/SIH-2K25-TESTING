@@ -4,7 +4,16 @@ using System.Data;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public class DepartmentRepository
+public interface IDepartmentRepository
+{
+    Task<IEnumerable<Department>> ListAsync(int limit, int offset);
+    Task<Department?> GetAsync(int id);
+    Task<Department> CreateAsync(Department item);
+    Task<Department?> UpdateAsync(int id, Department item);
+    Task<Department?> RemoveAsync(int id);
+}
+
+public class DepartmentRepository : IDepartmentRepository
 {
     private readonly IDbConnection _db;
     public DepartmentRepository(IDbConnection db)
@@ -40,4 +49,3 @@ public class DepartmentRepository
         return await _db.QueryFirstOrDefaultAsync<Department>(sql, new { id });
     }
 }
-

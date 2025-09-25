@@ -13,9 +13,37 @@ public class LibraryService : ILibraryService
         _repo = repo;
     }
 
-    public Task<Library> CreateAsync(Library item) => _repo.CreateAsync(item);
-    public Task<Library?> GetAsync(int book_id) => _repo.GetAsync(book_id);
+    public async Task<Library> CreateAsync(Library item)
+    {
+        return await _repo.CreateAsync(item);
+    }
+    
+    public async Task<Library?> GetAsync(string book_id)
+    {
+        if (int.TryParse(book_id, out int id))
+        {
+            return await _repo.GetAsync(id);
+        }
+        return null;
+    }
+    
     public Task<IEnumerable<Library>> ListAsync(int limit = 100, int offset = 0) => _repo.ListAsync(limit, offset);
-    public Task<Library?> RemoveAsync(int book_id) => _repo.RemoveAsync(book_id);
-    public Task<Library?> UpdateAsync(int book_id, Library item) => _repo.UpdateAsync(book_id, item);
+    
+    public async Task<Library?> RemoveAsync(string book_id)
+    {
+        if (int.TryParse(book_id, out int id))
+        {
+            return await _repo.RemoveAsync(id);
+        }
+        return null;
+    }
+    
+    public async Task<Library?> UpdateAsync(string book_id, Library item)
+    {
+        if (int.TryParse(book_id, out int id))
+        {
+            return await _repo.UpdateAsync(id, item);
+        }
+        return null;
+    }
 }
