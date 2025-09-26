@@ -1,0 +1,245 @@
+{
+	"info": {
+		"_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+		"name": "SIH ERP SOAP API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"description": "Collection for testing the SIH ERP SOAP API"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger UI",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/swagger",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"swagger"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generic CRUD - List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://tempuri.org/IGenericCrud/ListAsync\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <ListAsync xmlns=\"http://tempuri.org/\">\n      <table>student</table>\n      <limit>10</limit>\n      <offset>0</offset>\n    </ListAsync>\n  </soap:Body>\n</soap:Envelope>"
+				},
+				"url": {
+					"raw": "http://localhost:5000/soap",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"soap"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student - List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://tempuri.org/IStudentService/ListAsync\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <ListAsync xmlns=\"http://tempuri.org/\">\n      <limit>10</limit>\n      <offset>0</offset>\n    </ListAsync>\n  </soap:Body>\n</soap:Envelope>"
+				},
+				"url": {
+					"raw": "http://localhost:5000/soap/student",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"soap",
+						"student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student - Get",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://tempuri.org/IStudentService/GetAsync\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <GetAsync xmlns=\"http://tempuri.org/\">\n      <student_id>1</student_id>\n    </GetAsync>\n  </soap:Body>\n</soap:Envelope>"
+				},
+				"url": {
+					"raw": "http://localhost:5000/soap/student",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"soap",
+						"student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Student - Create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://tempuri.org/IStudentService/CreateAsync\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <CreateAsync xmlns=\"http://tempuri.org/\">\n      <item>\n        <first_name>John</first_name>\n        <last_name>Doe</last_name>\n        <dob>2000-01-01T00:00:00</dob>\n        <email>john.doe@example.com</email>\n        <department_id>1</department_id>\n        <course_id>1</course_id>\n        <verified>true</verified>\n      </item>\n    </CreateAsync>\n  </soap:Body>\n</soap:Envelope>"
+				},
+				"url": {
+					"raw": "http://localhost:5000/soap/student",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"soap",
+						"student"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Department - List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://tempuri.org/IDepartmentService/ListAsync\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <ListAsync xmlns=\"http://tempuri.org/\">\n      <limit>10</limit>\n      <offset>0</offset>\n    </ListAsync>\n  </soap:Body>\n</soap:Envelope>"
+				},
+				"url": {
+					"raw": "http://localhost:5000/soap/department",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"soap",
+						"department"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Course - List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "text/xml"
+					},
+					{
+						"key": "SOAPAction",
+						"value": "\"http://tempuri.org/ICourseService/ListAsync\""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n  <soap:Body>\n    <ListAsync xmlns=\"http://tempuri.org/\">\n      <limit>10</limit>\n      <offset>0</offset>\n    </ListAsync>\n  </soap:Body>\n</soap:Envelope>"
+				},
+				"url": {
+					"raw": "http://localhost:5000/soap/course",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"soap",
+						"course"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
