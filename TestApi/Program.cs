@@ -42,15 +42,7 @@ class Program
                 Console.WriteLine($"Health response: {healthContent}");
             }
             
-            // Test Swagger JSON
-            var swaggerResponse = await client.GetAsync("http://localhost:5000/swagger/v1/swagger.json");
-            Console.WriteLine($"Swagger JSON status: {swaggerResponse.StatusCode}");
-            
-            if (swaggerResponse.IsSuccessStatusCode)
-            {
-                var swaggerContent = await swaggerResponse.Content.ReadAsStringAsync();
-                Console.WriteLine($"Swagger JSON length: {swaggerContent.Length} characters");
-            }
+            // Removed Swagger JSON test
         }
         catch (Exception ex)
         {

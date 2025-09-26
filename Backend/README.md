@@ -1,13 +1,72 @@
-# SIH ERP SOAP API - ASP.NET Core 8 Implementation
+# SIH ERP Backend
 
-This is the ASP.NET Core 8 implementation of the SIH ERP system, providing SOAP-based APIs for enterprise resource planning functionality.
+## Overview
+The SIH ERP Backend is a comprehensive REST-based Web API system built with ASP.NET Core. It provides complete CRUD operations for managing educational institutions, including students, courses, departments, faculty, admissions, hostel management, library services, and more.
+
+## Key Features
+- Production-ready REST APIs using ASP.NET Core
+- Complete CRUD operations for 23 educational entities
+- Health checks with database connectivity verification
+- Secure database access with parameterized queries
+- JSON-based REST communication
+- Support for students, courses, departments, fees, exams, guardians, admissions, hostels, rooms, hostel allocations, library, book issues, results, user roles, contact details, faculty, enrollments, attendance, and payments
+
+## Technology Stack
+- ASP.NET Core 8
+- PostgreSQL with Dapper ORM
+- REST over HTTP with JSON serialization
+- Swagger/OpenAPI-based API documentation
+
+## API Endpoints
+The backend provides the following endpoints:
+
+### Core Endpoints
+- Health Check: `GET /health`
+- API Version: `GET /api/version`
+- Swagger UI: `GET /`
+- Swagger JSON: `GET /swagger/v1/swagger.json`
+
+### REST API Endpoints
+- Students: `/api/student`
+- Courses: `/api/course`
+- Departments: `/api/department`
+- Users: `/api/user`
+- Fees: `/api/fees`
+- Exams: `/api/exam`
+- Guardians: `/api/guardian`
+- Admissions: `/api/admission`
+- Hostels: `/api/hostel`
+- Rooms: `/api/room`
+- Hostel Allocations: `/api/hostelallocation`
+- Libraries: `/api/library`
+- Book Issues: `/api/bookissue`
+- Results: `/api/result`
+- Roles: `/api/role`
+- Subjects: `/api/subject`
+- User Roles: `/api/userrole`
+- Contact Details: `/api/contactdetails`
+- Faculty: `/api/faculty`
+- Enrollments: `/api/enrollment`
+
+## Getting Started
+1. Clone the repository
+2. Set up the PostgreSQL database using the setup script
+3. Configure the database connection string in environment variables
+4. Run the application with `dotnet run`
+
+## Testing
+The backend includes comprehensive unit tests and integration tests. Run tests with `dotnet test`.
+
+# SIH ERP REST API - ASP.NET Core 8 Implementation
+
+This is the ASP.NET Core 8 implementation of the SIH ERP system, providing REST-based APIs for enterprise resource planning functionality.
 
 ## Project Structure
 
 ```
 SIH.ERP.Soap/
 ├── Models/                 # POCO entities
-├── Contracts/              # WCF service contracts
+├── Controllers/            # REST API controllers
 ├── Repositories/           # Data access layer using Dapper
 ├── Services/               # Service implementations
 ├── Program.cs              # Application entry point
@@ -17,9 +76,9 @@ SIH.ERP.Soap/
 
 ## Features
 
-- SOAP endpoints for all ERP entities
+- REST endpoints for all ERP entities
 - RESTful health check endpoint
-- Swagger UI for API documentation
+- JSON-based API documentation with Swagger
 - PostgreSQL database integration with Dapper
 - Clean architecture with separation of concerns
 - Dependency injection for testability
@@ -40,32 +99,35 @@ DATABASE_URL=your_postgresql_connection_string
 
 ## Endpoints
 
-### SOAP Services
-
-- Generic CRUD: `/soap` 
-- Department: `/soap/department`
-- Role: `/soap/role`
-- Course: `/soap/course`
-- Subject: `/soap/subject`
-- Student: `/soap/student`
-- Guardian: `/soap/guardian`
-- Admission: `/soap/admission`
-- Hostel: `/soap/hostel`
-- Room: `/soap/room`
-- Hostel Allocation: `/soap/hostelallocation`
-- Fees: `/soap/fees`
-- Library: `/soap/library`
-- Book Issue: `/soap/bookissue`
-- Exam: `/soap/exam`
-- Result: `/soap/result`
-- User: `/soap/user`
-- User Role: `/soap/userrole`
-- Contact Details: `/soap/contactdetails`
-
 ### REST Services
 
+- Students: `/api/student`
+- Courses: `/api/course`
+- Departments: `/api/department`
+- Users: `/api/user`
+- Fees: `/api/fees`
+- Exams: `/api/exam`
+- Guardians: `/api/guardian`
+- Admissions: `/api/admission`
+- Hostels: `/api/hostel`
+- Rooms: `/api/room`
+- Hostel Allocations: `/api/hostelallocation`
+- Libraries: `/api/library`
+- Book Issues: `/api/bookissue`
+- Results: `/api/result`
+- Roles: `/api/role`
+- Subjects: `/api/subject`
+- User Roles: `/api/userrole`
+- Contact Details: `/api/contactdetails`
+- Faculty: `/api/faculty`
+- Enrollments: `/api/enrollment`
+
+### Additional Endpoints
+
 - Health Check: `GET /health`
-- Swagger UI: `/swagger`
+- API Information: `GET /api/version`
+- Swagger UI: `GET /`
+- Swagger JSON: `GET /swagger/v1/swagger.json`
 
 ## Building and Running
 
@@ -86,10 +148,9 @@ dotnet run
 ## Technology Stack
 
 - ASP.NET Core 8
-- CoreWCF for SOAP services
 - Dapper for data access
 - PostgreSQL database
-- Swagger for API documentation
+- Swagger/OpenAPI for API documentation
 - DotNetEnv for environment variables
 
 ## Contributing

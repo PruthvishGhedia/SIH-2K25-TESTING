@@ -5,15 +5,6 @@ using System.Data;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public interface IFacultyRepository
-{
-    Task<IEnumerable<Faculty>> ListAsync(int limit, int offset);
-    Task<Faculty?> GetAsync(int id);
-    Task<Faculty> CreateAsync(Faculty item);
-    Task<Faculty?> UpdateAsync(int id, Faculty item);
-    Task<Faculty?> RemoveAsync(int id);
-}
-
 public class FacultyRepository : RepositoryBase, IFacultyRepository
 {
     public FacultyRepository(IDbConnection connection) : base(connection) { }
@@ -91,4 +82,3 @@ public class FacultyRepository : RepositoryBase, IFacultyRepository
         }
     }
 }
-

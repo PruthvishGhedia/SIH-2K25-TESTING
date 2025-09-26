@@ -5,15 +5,6 @@ using System.Data;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public interface IEnrollmentRepository
-{
-    Task<IEnumerable<Enrollment>> ListAsync(int limit, int offset);
-    Task<Enrollment?> GetAsync(int id);
-    Task<Enrollment> CreateAsync(Enrollment item);
-    Task<Enrollment?> UpdateAsync(int id, Enrollment item);
-    Task<Enrollment?> RemoveAsync(int id);
-}
-
 public class EnrollmentRepository : RepositoryBase, IEnrollmentRepository
 {
     public EnrollmentRepository(IDbConnection connection) : base(connection) { }
@@ -90,4 +81,3 @@ public class EnrollmentRepository : RepositoryBase, IEnrollmentRepository
         }
     }
 }
-

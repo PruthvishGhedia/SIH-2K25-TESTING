@@ -1,42 +1,79 @@
 using Dapper;
 using SIH.ERP.Soap.Models;
 using System.Data;
+using SIH.ERP.Soap.Exceptions;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public class ResultRepository
+public class ResultRepository : RepositoryBase, IResultRepository
 {
-    private readonly IDbConnection _db;
-    public ResultRepository(IDbConnection db)
-    {
-        _db = db;
-    }
+    public ResultRepository(IDbConnection connection) : base(connection) { }
 
     public async Task<IEnumerable<Result>> ListAsync(int limit, int offset)
     {
-        return await _db.QueryAsync<Result>("SELECT * FROM result ORDER BY result_id LIMIT @limit OFFSET @offset", new { limit, offset });
+        try
+        {
+            EnsureConnection();
+            return await _connection.QueryAsync<Result>("SELECT * FROM result ORDER BY result_id LIMIT @limit OFFSET @offset", new { limit, offset });
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException("Failed to list results", ex);
+        }
     }
 
     public async Task<Result?> GetAsync(int id)
     {
-        return await _db.QueryFirstOrDefaultAsync<Result>("SELECT * FROM result WHERE \"result_id\"=@id", new { id });
+        try
+        {
+            EnsureConnection();
+            return await _connection.QueryFirstOrDefaultAsync<Result>("SELECT * FROM result WHERE \"result_id\"=@id", new { id });
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException($"Failed to get result with ID {id}", ex);
+        }
     }
 
     public async Task<Result> CreateAsync(Result item)
     {
-        var sql = "INSERT INTO result(\"result_id\", \"exam_id\", \"student_id\", \"marks\", \"grade\") VALUES (@result_id, @exam_id, @student_id, @marks, @grade) RETURNING *";
-        return await _db.QuerySingleAsync<Result>(sql, item);
+        try
+        {
+            EnsureConnection();
+            var sql = "INSERT INTO result(\"result_id\", \"exam_id\", \"student_id\", \"marks\", \"grade\") VALUES (@result_id, @exam_id, @student_id, @marks, @grade) RETURNING *";
+            return await _connection.QuerySingleAsync<Result>(sql, item);
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException("Failed to create result", ex);
+        }
     }
 
     public async Task<Result?> UpdateAsync(int id, Result item)
     {
-        var sql = "UPDATE result SET \"exam_id\"=@exam_id, \"student_id\"=@student_id, \"marks\"=@marks, \"grade\"=@grade WHERE \"result_id\"=@id RETURNING *";
-        return await _db.QueryFirstOrDefaultAsync<Result>(sql, new { id, item.exam_id, item.student_id, item.marks, item.grade });
+        try
+        {
+            EnsureConnection();
+            var sql = "UPDATE result SET \"exam_id\"=@exam_id, \"student_id\"=@student_id, \"marks\"=@marks, \"grade\"=@grade WHERE \"result_id\"=@id RETURNING *";
+            return await _connection.QueryFirstOrDefaultAsync<Result>(sql, new { id, item.exam_id, item.student_id, item.marks, item.grade });
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException($"Failed to update result with ID {id}", ex);
+        }
     }
 
     public async Task<Result?> RemoveAsync(int id)
     {
-        var sql = "DELETE FROM result WHERE \"result_id\"=@id RETURNING *";
-        return await _db.QueryFirstOrDefaultAsync<Result>(sql, new { id });
+        try
+        {
+            EnsureConnection();
+            var sql = "DELETE FROM result WHERE \"result_id\"=@id RETURNING *";
+            return await _connection.QueryFirstOrDefaultAsync<Result>(sql, new { id });
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException($"Failed to remove result with ID {id}", ex);
+        }
     }
 }

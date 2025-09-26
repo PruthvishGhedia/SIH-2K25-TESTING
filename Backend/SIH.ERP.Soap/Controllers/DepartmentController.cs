@@ -5,19 +5,15 @@ using SIH.ERP.Soap.Repositories;
 namespace SIH.ERP.Soap.Controllers;
 
 /// <summary>
-/// REST API controller for managing departments in the educational institution.
-/// Provides full CRUD operations for department records.
+/// REST API controller for managing departments in the ERP system.
+/// This controller provides CRUD operations for academic and administrative departments.
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class DepartmentController : ControllerBase
+public class DepartmentController : BaseController
 {
     private readonly IDepartmentRepository _departmentRepository;
 
-    /// <summary>
-    /// Initializes a new instance of the DepartmentController class.
-    /// </summary>
-    /// <param name="departmentRepository">The department repository for data access.</param>
     public DepartmentController(IDepartmentRepository departmentRepository)
     {
         _departmentRepository = departmentRepository;
@@ -29,9 +25,10 @@ public class DepartmentController : ControllerBase
     /// <param name="limit">Maximum number of departments to retrieve (default: 100, maximum: 1000)</param>
     /// <param name="offset">Number of departments to skip for pagination (default: 0)</param>
     /// <returns>A collection of Department objects</returns>
-    /// <response code="200">Returns the list of departments</response>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Department>>> GetDepartments(int limit = 100, int offset = 0)
+    public async Task<ActionResult<IEnumerable<Department>>> ListAsync(
+        [FromQuery] int limit = 100, 
+        [FromQuery] int offset = 0)
     {
         try
         {
@@ -48,18 +45,16 @@ public class DepartmentController : ControllerBase
     /// Retrieves a specific department by its unique identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the department record</param>
-    /// <returns>The Department object if found</returns>
-    /// <response code="200">Returns the requested department</response>
-    /// <response code="404">Department not found</response>
+    /// <returns>The Department object if found, null otherwise</returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<Department>> GetDepartment(int id)
+    public async Task<ActionResult<Department?>> GetAsync(int id)
     {
         try
         {
             var department = await _departmentRepository.GetAsync(id);
             if (department == null)
             {
-                return NotFound($"Department with ID {id} not found.");
+                return NotFound($"Department with ID {id} not found");
             }
             return Ok(department);
         }
@@ -74,31 +69,19 @@ public class DepartmentController : ControllerBase
     /// </summary>
     /// <param name="department">The department object to create</param>
     /// <returns>The created Department object with assigned ID</returns>
-    /// <response code="201">Returns the created department</response>
-    /// <response code="400">Invalid department data provided</response>
     [HttpPost]
-    public async Task<ActionResult<Department>> CreateDepartment([FromBody] Department department)
+    public async Task<ActionResult<Department>> CreateAsync([FromBody] Department department)
     {
         try
         {
-            if (department == null)
-            {
-                return BadRequest("Department data is required.");
-            }
-
             // Validate required fields
             if (string.IsNullOrWhiteSpace(department.dept_name))
             {
-                ModelState.AddModelError("DeptName", "Department name is required.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
+                return BadRequest("Department name is required");
             }
 
             var createdDepartment = await _departmentRepository.CreateAsync(department);
-            return CreatedAtAction(nameof(GetDepartment), new { id = createdDepartment.dept_id }, createdDepartment);
+            return CreatedAtAction(nameof(GetAsync), new { id = createdDepartment.dept_id }, createdDepartment);
         }
         catch (Exception ex)
         {
@@ -111,43 +94,23 @@ public class DepartmentController : ControllerBase
     /// </summary>
     /// <param name="id">The unique identifier of the department to update</param>
     /// <param name="department">The department object with updated information</param>
-    /// <returns>The updated Department object if successful</returns>
-    /// <response code="200">Returns the updated department</response>
-    /// <response code="400">Invalid department data provided</response>
-    /// <response code="404">Department not found</response>
+    /// <returns>The updated Department object if successful, null otherwise</returns>
     [HttpPut("{id}")]
-    public async Task<ActionResult<Department>> UpdateDepartment(int id, [FromBody] Department department)
+    public async Task<ActionResult<Department?>> UpdateAsync(int id, [FromBody] Department department)
     {
         try
         {
-            if (department == null)
-            {
-                return BadRequest("Department data is required.");
-            }
-
             // Validate required fields
             if (string.IsNullOrWhiteSpace(department.dept_name))
             {
-                ModelState.AddModelError("DeptName", "Department name is required.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var existingDepartment = await _departmentRepository.GetAsync(id);
-            if (existingDepartment == null)
-            {
-                return NotFound($"Department with ID {id} not found.");
+                return BadRequest("Department name is required");
             }
 
             var updatedDepartment = await _departmentRepository.UpdateAsync(id, department);
             if (updatedDepartment == null)
             {
-                return NotFound($"Department with ID {id} could not be updated.");
+                return NotFound($"Department with ID {id} not found");
             }
-
             return Ok(updatedDepartment);
         }
         catch (Exception ex)
@@ -160,27 +123,18 @@ public class DepartmentController : ControllerBase
     /// Removes a department record from the system by its unique identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the department to remove</param>
-    /// <returns>Success status if the department was removed</returns>
-    /// <response code="204">Department successfully removed</response>
-    /// <response code="404">Department not found</response>
+    /// <returns>The removed Department object if successful, null otherwise</returns>
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteDepartment(int id)
+    public async Task<ActionResult<Department?>> RemoveAsync(int id)
     {
         try
         {
-            var department = await _departmentRepository.GetAsync(id);
-            if (department == null)
-            {
-                return NotFound($"Department with ID {id} not found.");
-            }
-
             var removedDepartment = await _departmentRepository.RemoveAsync(id);
             if (removedDepartment == null)
             {
-                return NotFound($"Department with ID {id} could not be removed.");
+                return NotFound($"Department with ID {id} not found");
             }
-
-            return NoContent();
+            return Ok(removedDepartment);
         }
         catch (Exception ex)
         {

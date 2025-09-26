@@ -81,12 +81,6 @@ if exist "Frontend" (
         echo ❌ package.json missing
     )
     
-    if exist "Frontend\src\services\soapClient.js" (
-        echo ✅ SOAP client exists
-    ) else (
-        echo ❌ SOAP client missing
-    )
-    
     if exist "Frontend\.env.development" (
         echo ✅ Environment configuration exists
     ) else (
@@ -155,10 +149,6 @@ echo   npm run dev
 echo.
 echo ℹ️  To seed the database:
 echo   psql -d your_database -f Backend\SIH.ERP.Soap\Seed\seed.sql
-
-echo.
-echo ℹ️  To run tests:
-echo   cd Backend\SIH.ERP.Soap ^&^& dotnet test
 
 echo.
 echo 🎉 Verification complete!

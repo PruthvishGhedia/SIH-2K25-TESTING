@@ -1,51 +1,79 @@
 using Dapper;
 using SIH.ERP.Soap.Models;
 using System.Data;
+using SIH.ERP.Soap.Exceptions;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public interface IDepartmentRepository
+public class DepartmentRepository : RepositoryBase, IDepartmentRepository
 {
-    Task<IEnumerable<Department>> ListAsync(int limit, int offset);
-    Task<Department?> GetAsync(int id);
-    Task<Department> CreateAsync(Department item);
-    Task<Department?> UpdateAsync(int id, Department item);
-    Task<Department?> RemoveAsync(int id);
-}
-
-public class DepartmentRepository : IDepartmentRepository
-{
-    private readonly IDbConnection _db;
-    public DepartmentRepository(IDbConnection db)
-    {
-        _db = db;
-    }
+    public DepartmentRepository(IDbConnection connection) : base(connection) { }
 
     public async Task<IEnumerable<Department>> ListAsync(int limit, int offset)
     {
-        return await _db.QueryAsync<Department>("SELECT * FROM department ORDER BY dept_id LIMIT @limit OFFSET @offset", new { limit, offset });
+        try
+        {
+            EnsureConnection();
+            return await _connection.QueryAsync<Department>("SELECT * FROM department ORDER BY dept_id LIMIT @limit OFFSET @offset", new { limit, offset });
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException("Failed to list departments", ex);
+        }
     }
 
     public async Task<Department?> GetAsync(int id)
     {
-        return await _db.QueryFirstOrDefaultAsync<Department>("SELECT * FROM department WHERE \"dept_id\"=@id", new { id });
+        try
+        {
+            EnsureConnection();
+            return await _connection.QueryFirstOrDefaultAsync<Department>("SELECT * FROM department WHERE \"dept_id\"=@id", new { id });
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException($"Failed to get department with ID {id}", ex);
+        }
     }
 
     public async Task<Department> CreateAsync(Department item)
     {
-        var sql = "INSERT INTO department(\"dept_id\", \"dept_name\") VALUES (@dept_id, @dept_name) RETURNING *";
-        return await _db.QuerySingleAsync<Department>(sql, item);
+        try
+        {
+            EnsureConnection();
+            var sql = "INSERT INTO department(\"dept_id\", \"dept_name\") VALUES (@dept_id, @dept_name) RETURNING *";
+            return await _connection.QuerySingleAsync<Department>(sql, item);
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException("Failed to create department", ex);
+        }
     }
 
     public async Task<Department?> UpdateAsync(int id, Department item)
     {
-        var sql = "UPDATE department SET \"dept_name\"=@dept_name WHERE \"dept_id\"=@id RETURNING *";
-        return await _db.QueryFirstOrDefaultAsync<Department>(sql, new { id, item.dept_name });
+        try
+        {
+            EnsureConnection();
+            var sql = "UPDATE department SET \"dept_name\"=@dept_name WHERE \"dept_id\"=@id RETURNING *";
+            return await _connection.QueryFirstOrDefaultAsync<Department>(sql, new { id, item.dept_name });
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException($"Failed to update department with ID {id}", ex);
+        }
     }
 
     public async Task<Department?> RemoveAsync(int id)
     {
-        var sql = "DELETE FROM department WHERE \"dept_id\"=@id RETURNING *";
-        return await _db.QueryFirstOrDefaultAsync<Department>(sql, new { id });
+        try
+        {
+            EnsureConnection();
+            var sql = "DELETE FROM department WHERE \"dept_id\"=@id RETURNING *";
+            return await _connection.QueryFirstOrDefaultAsync<Department>(sql, new { id });
+        }
+        catch (Exception ex)
+        {
+            throw new RepositoryException($"Failed to remove department with ID {id}", ex);
+        }
     }
 }

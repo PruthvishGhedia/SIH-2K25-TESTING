@@ -135,26 +135,6 @@ echo "----------------------------------"
 # Test health endpoint
 if curl -s http://localhost:5000/health > /dev/null 2>&1; then
     print_status "Backend health endpoint responding" 0
-    
-    # Test SOAP endpoint
-    SOAP_RESPONSE=$(curl -s -X POST http://localhost:5000/soap/student \
-        -H "Content-Type: text/xml; charset=utf-8" \
-        -H "SOAPAction: \"http://tempuri.org/IStudentService/ListAsync\"" \
-        -d '<?xml version="1.0"?>
-<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-  <soap:Body>
-    <ListAsync xmlns="http://tempuri.org/">
-      <limit>1</limit>
-      <offset>0</offset>
-    </ListAsync>
-  </soap:Body>
-</soap:Envelope>' 2>/dev/null)
-    
-    if echo "$SOAP_RESPONSE" | grep -q "soap:Envelope"; then
-        print_status "SOAP endpoint responding correctly" 0
-    else
-        print_warning "SOAP endpoint not responding as expected"
-    fi
 else
     print_warning "Backend not running on localhost:5000"
 fi
@@ -213,9 +193,6 @@ echo "  npm run dev"
 
 print_info "To seed the database:"
 echo "  psql -d your_database -f Backend/SIH.ERP.Soap/Seed/seed.sql"
-
-print_info "To run tests:"
-echo "  cd Backend/SIH.ERP.Soap && dotnet test"
 
 echo ""
 echo "🎉 Verification complete!"

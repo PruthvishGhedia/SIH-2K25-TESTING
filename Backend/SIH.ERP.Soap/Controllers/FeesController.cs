@@ -5,33 +5,30 @@ using SIH.ERP.Soap.Repositories;
 namespace SIH.ERP.Soap.Controllers;
 
 /// <summary>
-/// REST API controller for managing fees in the educational institution.
-/// Provides full CRUD operations for fees records.
+/// REST API controller for managing student fees in the ERP system.
+/// This controller provides CRUD operations for fee structures, payments, and payment tracking for students.
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class FeesController : ControllerBase
+public class FeesController : BaseController
 {
     private readonly IFeesRepository _feesRepository;
 
-    /// <summary>
-    /// Initializes a new instance of the FeesController class.
-    /// </summary>
-    /// <param name="feesRepository">The fees repository for data access.</param>
     public FeesController(IFeesRepository feesRepository)
     {
         _feesRepository = feesRepository;
     }
 
     /// <summary>
-    /// Retrieves a list of fees records with pagination support.
-    /// </summary>
-    /// <param name="limit">Maximum number of fees records to retrieve (default: 100, maximum: 1000)</param>
-    /// <param name="offset">Number of fees records to skip for pagination (default: 0)</param>
-    /// <returns>A collection of Fees objects</returns>
-    /// <response code="200">Returns the list of fees records</response>
+        /// Retrieves a list of fee records with pagination support.
+        /// </summary>
+        /// <param name="limit">Maximum number of fee records to retrieve (default: 100, maximum: 1000)</param>
+        /// <param name="offset">Number of fee records to skip for pagination (default: 0)</param>
+        /// <returns>A collection of Fees objects</returns>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Fees>>> GetFees(int limit = 100, int offset = 0)
+    public async Task<ActionResult<IEnumerable<Fees>>> ListAsync(
+        [FromQuery] int limit = 100, 
+        [FromQuery] int offset = 0)
     {
         try
         {
@@ -45,21 +42,19 @@ public class FeesController : ControllerBase
     }
 
     /// <summary>
-    /// Retrieves a specific fees record by its unique identifier.
+    /// Retrieves a specific fee record by its unique identifier.
     /// </summary>
-    /// <param name="id">The unique identifier of the fees record</param>
-    /// <returns>The Fees object if found</returns>
-    /// <response code="200">Returns the requested fees record</response>
-    /// <response code="404">Fees record not found</response>
+    /// <param name="id">The unique identifier of the fee record</param>
+    /// <returns>The Fees object if found, null otherwise</returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<Fees>> GetFee(int id)
+    public async Task<ActionResult<Fees?>> GetAsync(int id)
     {
         try
         {
             var fee = await _feesRepository.GetAsync(id);
             if (fee == null)
             {
-                return NotFound($"Fees record with ID {id} not found.");
+                return NotFound($"Fee record with ID {id} not found");
             }
             return Ok(fee);
         }
@@ -70,45 +65,33 @@ public class FeesController : ControllerBase
     }
 
     /// <summary>
-    /// Creates a new fees record in the system.
+    /// Creates a new fee record in the system.
     /// </summary>
-    /// <param name="fee">The fees object to create</param>
+    /// <param name="fee">The fee object to create</param>
     /// <returns>The created Fees object with assigned ID</returns>
-    /// <response code="201">Returns the created fees record</response>
-    /// <response code="400">Invalid fees data provided</response>
     [HttpPost]
-    public async Task<ActionResult<Fees>> CreateFee([FromBody] Fees fee)
+    public async Task<ActionResult<Fees>> CreateAsync([FromBody] Fees fee)
     {
         try
         {
-            if (fee == null)
+            // Validate required fields
+            if (fee.student_id <= 0)
             {
-                return BadRequest("Fees data is required.");
+                return BadRequest("Student ID is required and must be greater than 0");
             }
 
-            // Validate required fields
             if (string.IsNullOrWhiteSpace(fee.fee_type))
             {
-                ModelState.AddModelError("FeeType", "Fee type is required.");
+                return BadRequest("Fee type is required");
             }
 
             if (fee.amount <= 0)
             {
-                ModelState.AddModelError("Amount", "Amount must be greater than zero.");
-            }
-
-            if (!fee.due_date.HasValue)
-            {
-                ModelState.AddModelError("DueDate", "Due date is required.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
+                return BadRequest("Amount must be greater than 0");
             }
 
             var createdFee = await _feesRepository.CreateAsync(fee);
-            return CreatedAtAction(nameof(GetFee), new { id = createdFee.fee_id }, createdFee);
+            return CreatedAtAction(nameof(GetAsync), new { id = createdFee.fee_id }, createdFee);
         }
         catch (Exception ex)
         {
@@ -117,57 +100,37 @@ public class FeesController : ControllerBase
     }
 
     /// <summary>
-    /// Updates an existing fees record with new information.
+    /// Updates an existing fee record with new information.
     /// </summary>
-    /// <param name="id">The unique identifier of the fees record to update</param>
-    /// <param name="fee">The fees object with updated information</param>
-    /// <returns>The updated Fees object if successful</returns>
-    /// <response code="200">Returns the updated fees record</response>
-    /// <response code="400">Invalid fees data provided</response>
-    /// <response code="404">Fees record not found</response>
+    /// <param name="id">The unique identifier of the fee record to update</param>
+    /// <param name="fee">The fee object with updated information</param>
+    /// <returns>The updated Fees object if successful, null otherwise</returns>
     [HttpPut("{id}")]
-    public async Task<ActionResult<Fees>> UpdateFee(int id, [FromBody] Fees fee)
+    public async Task<ActionResult<Fees?>> UpdateAsync(int id, [FromBody] Fees fee)
     {
         try
         {
-            if (fee == null)
+            // Validate required fields
+            if (fee.student_id <= 0)
             {
-                return BadRequest("Fees data is required.");
+                return BadRequest("Student ID is required and must be greater than 0");
             }
 
-            // Validate required fields
             if (string.IsNullOrWhiteSpace(fee.fee_type))
             {
-                ModelState.AddModelError("FeeType", "Fee type is required.");
+                return BadRequest("Fee type is required");
             }
 
             if (fee.amount <= 0)
             {
-                ModelState.AddModelError("Amount", "Amount must be greater than zero.");
-            }
-
-            if (!fee.due_date.HasValue)
-            {
-                ModelState.AddModelError("DueDate", "Due date is required.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var existingFee = await _feesRepository.GetAsync(id);
-            if (existingFee == null)
-            {
-                return NotFound($"Fees record with ID {id} not found.");
+                return BadRequest("Amount must be greater than 0");
             }
 
             var updatedFee = await _feesRepository.UpdateAsync(id, fee);
             if (updatedFee == null)
             {
-                return NotFound($"Fees record with ID {id} could not be updated.");
+                return NotFound($"Fee record with ID {id} not found");
             }
-
             return Ok(updatedFee);
         }
         catch (Exception ex)
@@ -177,30 +140,21 @@ public class FeesController : ControllerBase
     }
 
     /// <summary>
-    /// Removes a fees record from the system by its unique identifier.
+    /// Removes a fee record from the system by its unique identifier.
     /// </summary>
-    /// <param name="id">The unique identifier of the fees record to remove</param>
-    /// <returns>Success status if the fees record was removed</returns>
-    /// <response code="204">Fees record successfully removed</response>
-    /// <response code="404">Fees record not found</response>
+    /// <param name="id">The unique identifier of the fee record to remove</param>
+    /// <returns>The removed Fees object if successful, null otherwise</returns>
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteFee(int id)
+    public async Task<ActionResult<Fees?>> RemoveAsync(int id)
     {
         try
         {
-            var fee = await _feesRepository.GetAsync(id);
-            if (fee == null)
-            {
-                return NotFound($"Fees record with ID {id} not found.");
-            }
-
             var removedFee = await _feesRepository.RemoveAsync(id);
             if (removedFee == null)
             {
-                return NotFound($"Fees record with ID {id} could not be removed.");
+                return NotFound($"Fee record with ID {id} not found");
             }
-
-            return NoContent();
+            return Ok(removedFee);
         }
         catch (Exception ex)
         {

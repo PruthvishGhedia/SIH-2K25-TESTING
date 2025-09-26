@@ -5,15 +5,6 @@ using System.Data;
 
 namespace SIH.ERP.Soap.Repositories;
 
-public interface IAttendanceRepository
-{
-    Task<IEnumerable<Attendance>> ListAsync(int limit, int offset);
-    Task<Attendance?> GetAsync(int id);
-    Task<Attendance> CreateAsync(Attendance item);
-    Task<Attendance?> UpdateAsync(int id, Attendance item);
-    Task<Attendance?> RemoveAsync(int id);
-}
-
 public class AttendanceRepository : RepositoryBase, IAttendanceRepository
 {
     public AttendanceRepository(IDbConnection connection) : base(connection) { }
@@ -90,4 +81,3 @@ public class AttendanceRepository : RepositoryBase, IAttendanceRepository
         }
     }
 }
-

@@ -5,19 +5,15 @@ using SIH.ERP.Soap.Repositories;
 namespace SIH.ERP.Soap.Controllers;
 
 /// <summary>
-/// REST API controller for managing students in the educational institution.
-/// Provides full CRUD operations for student records.
+/// REST API controller for managing students in the ERP system.
+/// This controller provides CRUD operations for student records, including personal information, academic details, and enrollment data.
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class StudentController : ControllerBase
+public class StudentController : BaseController
 {
     private readonly IStudentRepository _studentRepository;
 
-    /// <summary>
-    /// Initializes a new instance of the StudentController class.
-    /// </summary>
-    /// <param name="studentRepository">The student repository for data access.</param>
     public StudentController(IStudentRepository studentRepository)
     {
         _studentRepository = studentRepository;
@@ -29,9 +25,10 @@ public class StudentController : ControllerBase
     /// <param name="limit">Maximum number of students to retrieve (default: 100, maximum: 1000)</param>
     /// <param name="offset">Number of students to skip for pagination (default: 0)</param>
     /// <returns>A collection of Student objects</returns>
-    /// <response code="200">Returns the list of students</response>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Student>>> GetStudents(int limit = 100, int offset = 0)
+    public async Task<ActionResult<IEnumerable<Student>>> ListAsync(
+        [FromQuery] int limit = 100, 
+        [FromQuery] int offset = 0)
     {
         try
         {
@@ -48,18 +45,16 @@ public class StudentController : ControllerBase
     /// Retrieves a specific student by its unique identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the student record</param>
-    /// <returns>The Student object if found</returns>
-    /// <response code="200">Returns the requested student</response>
-    /// <response code="404">Student not found</response>
+    /// <returns>The Student object if found, null otherwise</returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<Student>> GetStudent(int id)
+    public async Task<ActionResult<Student?>> GetAsync(int id)
     {
         try
         {
             var student = await _studentRepository.GetAsync(id);
             if (student == null)
             {
-                return NotFound($"Student with ID {id} not found.");
+                return NotFound($"Student with ID {id} not found");
             }
             return Ok(student);
         }
@@ -74,46 +69,35 @@ public class StudentController : ControllerBase
     /// </summary>
     /// <param name="student">The student object to create</param>
     /// <returns>The created Student object with assigned ID</returns>
-    /// <response code="201">Returns the created student</response>
-    /// <response code="400">Invalid student data provided</response>
     [HttpPost]
-    public async Task<ActionResult<Student>> CreateStudent([FromBody] Student student)
+    public async Task<ActionResult<Student>> CreateAsync([FromBody] Student student)
     {
         try
         {
-            if (student == null)
-            {
-                return BadRequest("Student data is required.");
-            }
-
             // Validate required fields
             if (string.IsNullOrWhiteSpace(student.first_name))
             {
-                ModelState.AddModelError("FirstName", "First name is required.");
+                return BadRequest("First name is required");
             }
 
             if (string.IsNullOrWhiteSpace(student.last_name))
             {
-                ModelState.AddModelError("LastName", "Last name is required.");
+                return BadRequest("Last name is required");
             }
 
             if (string.IsNullOrWhiteSpace(student.email))
             {
-                ModelState.AddModelError("Email", "Email is required.");
+                return BadRequest("Email is required");
             }
 
+            // Validate email format
             if (!IsValidEmail(student.email))
             {
-                ModelState.AddModelError("Email", "Email format is invalid.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
+                return BadRequest("Email format is invalid");
             }
 
             var createdStudent = await _studentRepository.CreateAsync(student);
-            return CreatedAtAction(nameof(GetStudent), new { id = createdStudent.student_id }, createdStudent);
+            return CreatedAtAction(nameof(GetAsync), new { id = createdStudent.student_id }, createdStudent);
         }
         catch (Exception ex)
         {
@@ -126,58 +110,39 @@ public class StudentController : ControllerBase
     /// </summary>
     /// <param name="id">The unique identifier of the student to update</param>
     /// <param name="student">The student object with updated information</param>
-    /// <returns>The updated Student object if successful</returns>
-    /// <response code="200">Returns the updated student</response>
-    /// <response code="400">Invalid student data provided</response>
-    /// <response code="404">Student not found</response>
+    /// <returns>The updated Student object if successful, null otherwise</returns>
     [HttpPut("{id}")]
-    public async Task<ActionResult<Student>> UpdateStudent(int id, [FromBody] Student student)
+    public async Task<ActionResult<Student?>> UpdateAsync(int id, [FromBody] Student student)
     {
         try
         {
-            if (student == null)
-            {
-                return BadRequest("Student data is required.");
-            }
-
             // Validate required fields
             if (string.IsNullOrWhiteSpace(student.first_name))
             {
-                ModelState.AddModelError("FirstName", "First name is required.");
+                return BadRequest("First name is required");
             }
 
             if (string.IsNullOrWhiteSpace(student.last_name))
             {
-                ModelState.AddModelError("LastName", "Last name is required.");
+                return BadRequest("Last name is required");
             }
 
             if (string.IsNullOrWhiteSpace(student.email))
             {
-                ModelState.AddModelError("Email", "Email is required.");
+                return BadRequest("Email is required");
             }
 
+            // Validate email format
             if (!IsValidEmail(student.email))
             {
-                ModelState.AddModelError("Email", "Email format is invalid.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var existingStudent = await _studentRepository.GetAsync(id);
-            if (existingStudent == null)
-            {
-                return NotFound($"Student with ID {id} not found.");
+                return BadRequest("Email format is invalid");
             }
 
             var updatedStudent = await _studentRepository.UpdateAsync(id, student);
             if (updatedStudent == null)
             {
-                return NotFound($"Student with ID {id} could not be updated.");
+                return NotFound($"Student with ID {id} not found");
             }
-
             return Ok(updatedStudent);
         }
         catch (Exception ex)
@@ -190,27 +155,18 @@ public class StudentController : ControllerBase
     /// Removes a student record from the system by its unique identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the student to remove</param>
-    /// <returns>Success status if the student was removed</returns>
-    /// <response code="204">Student successfully removed</response>
-    /// <response code="404">Student not found</response>
+    /// <returns>The removed Student object if successful, null otherwise</returns>
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteStudent(int id)
+    public async Task<ActionResult<Student?>> RemoveAsync(int id)
     {
         try
         {
-            var student = await _studentRepository.GetAsync(id);
-            if (student == null)
-            {
-                return NotFound($"Student with ID {id} not found.");
-            }
-
             var removedStudent = await _studentRepository.RemoveAsync(id);
             if (removedStudent == null)
             {
-                return NotFound($"Student with ID {id} could not be removed.");
+                return NotFound($"Student with ID {id} not found");
             }
-
-            return NoContent();
+            return Ok(removedStudent);
         }
         catch (Exception ex)
         {
