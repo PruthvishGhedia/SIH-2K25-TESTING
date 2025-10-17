@@ -9,7 +9,7 @@ namespace SIH.ERP.Soap.Controllers;
 /// This controller provides CRUD operations for hostel room information and occupancy management.
 /// </summary>
 [ApiController]
-[Route("api/hostel/rooms")] 
+[Route("api/[controller]")]
 public class RoomController : BaseController
 {
     private readonly IRoomRepository _roomRepository;

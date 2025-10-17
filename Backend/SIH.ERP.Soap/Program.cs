@@ -8,11 +8,9 @@ using SIH.ERP.Soap.Services;
 using System.Data;
 using System.IO;
 using System.Reflection;
-using Npgsql;   
+using Npgsql;
 using DotNetEnv;
 using SIH.ERP.Soap.Hubs;
-
-// Hey, help me to test this project with TestSprite.
 
 var builder = WebApplication.CreateBuilder(args);
 

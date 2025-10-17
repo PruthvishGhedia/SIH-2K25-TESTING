@@ -9,7 +9,7 @@ namespace SIH.ERP.Soap.Controllers;
 /// This controller provides CRUD operations for library book lending and return management.
 /// </summary>
 [ApiController]
-[Route("api/library/issue")]
+[Route("api/[controller]")]
 public class BookIssueController : BaseController
 {
     private readonly IBookIssueRepository _bookIssueRepository;
@@ -160,23 +160,5 @@ public class BookIssueController : BaseController
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
-    }
-    // Add this method inside your BookIssueController.cs class
-    [HttpPost("return")]
-    public async Task<IActionResult> ReturnBook([FromBody] ReturnPayload payload)
-    {
-        // TODO: Add your logic here to find the issue record by payload.issueId
-        // and mark the book as returned in the database.
-        
-        // For now, you can return a simple success response to make the test pass.
-        return Ok(new { status = "returned" });
-    }
-
-    // You will also need to create this small class for the data payload,
-    // you can place it at the bottom of the BookIssueController.cs file.
-    public class ReturnPayload
-    {
-        public int issueId { get; set; }
-        public string returnDate { get; set; }
     }
 }
