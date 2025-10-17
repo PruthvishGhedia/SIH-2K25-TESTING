@@ -1,0 +1,497 @@
+[
+  {
+    "id": "TC001",
+    "title": "Student Registration with Document Upload",
+    "description": "Verify that a student can successfully register for admission by submitting all required documents and track their admission status.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to student registration page."
+      },
+      {
+        "type": "action",
+        "description": "Fill in all mandatory student information fields."
+      },
+      {
+        "type": "action",
+        "description": "Upload all required documents (e.g., transcript, ID proof)."
+      },
+      {
+        "type": "action",
+        "description": "Submit the registration form."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the registration is accepted and confirmation message is displayed."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to admission status tracking page."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the newly registered student's admission status is correctly displayed and updates accordingly."
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Student Registration Missing Required Documents",
+    "description": "Verify that registration is blocked or results in validation errors if required documents are not uploaded.",
+    "category": "error handling",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to student registration page."
+      },
+      {
+        "type": "action",
+        "description": "Fill in all mandatory student information fields."
+      },
+      {
+        "type": "action",
+        "description": "Do NOT upload required documents."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to submit the registration form."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify form submission is blocked and appropriate error messages for missing documents are displayed."
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Attendance Marking for Students",
+    "description": "Verify faculty and admin can mark attendance for students for a given class and date, and the attendance record is saved correctly.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as faculty or admin."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to attendance marking interface."
+      },
+      {
+        "type": "action",
+        "description": "Select class and date."
+      },
+      {
+        "type": "action",
+        "description": "Mark attendance status (present/absent) for multiple students."
+      },
+      {
+        "type": "action",
+        "description": "Submit attendance."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify that attendance records are saved correctly in the system."
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Attendance Reporting Accuracy",
+    "description": "Verify that attendance reports generated show accurate attendance data over a specified date range.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as faculty or admin."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to attendance reports section."
+      },
+      {
+        "type": "action",
+        "description": "Select class and date range."
+      },
+      {
+        "type": "action",
+        "description": "Generate attendance report."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify attendance statistics are accurate and consistent with marked records."
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Library Book Issue and Return Process",
+    "description": "Validate smooth library book issuance and return process for students and staff.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as student or staff."
+      },
+      {
+        "type": "action",
+        "description": "Search and browse library catalog to locate a book."
+      },
+      {
+        "type": "action",
+        "description": "Request to issue a selected available book."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the book is successfully issued and loan record is created."
+      },
+      {
+        "type": "action",
+        "description": "Return the previously issued book."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the book return is processed and loan record is updated accordingly."
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Hostel Room Allocation and Fee Management",
+    "description": "Verify admin can allocate hostel rooms to students and fee calculations and payments are handled correctly.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as admin."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to hostel allocation section."
+      },
+      {
+        "type": "action",
+        "description": "Assign a room to a student."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify room allocation is recorded correctly."
+      },
+      {
+        "type": "action",
+        "description": "Generate hostel fee for the allocated room."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the calculated hostel fee is correct based on room and predefined rates."
+      },
+      {
+        "type": "action",
+        "description": "Process student's hostel fee payment."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify payment is accepted and receipt is generated."
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Exam Scheduling, Result Entry, and Publishing",
+    "description": "Verify faculty/admin can schedule exams, enter results, and publish them for student visibility without errors.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as faculty or admin."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to exam scheduling."
+      },
+      {
+        "type": "action",
+        "description": "Create a new exam schedule with course, date, and time."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify exam schedule is saved correctly."
+      },
+      {
+        "type": "action",
+        "description": "Enter exam results for students."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify results are saved without errors."
+      },
+      {
+        "type": "action",
+        "description": "Publish results to student view."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify students can view published results accurately."
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Fee Payment Processing with Receipt Generation",
+    "description": "Verify that students and guardians can make fee payments, and that receipts and reports are generated accurately.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as student or guardian."
+      },
+      {
+        "type": "action",
+        "description": "View outstanding fees."
+      },
+      {
+        "type": "action",
+        "description": "Submit payment for selected fees via available payment methods."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify payment transaction completes successfully."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a payment receipt is generated and accessible."
+      },
+      {
+        "type": "action",
+        "description": "Generate fee payment reports for a date range."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the reports accurately reflect payments made."
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Role-Based Access Control Enforcement",
+    "description": "Ensure role-based restrictions prevent unauthorized access to features and data for all user roles (student, faculty, admin, guardian).",
+    "category": "security",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as each user role separately."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to access functions and data not permitted for the role (e.g., student trying to access admin features)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify access is denied with appropriate error messages or redirection."
+      },
+      {
+        "type": "action",
+        "description": "Verify allowed functions and data are accessible to each role."
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Real-Time Dashboard Updates via SignalR",
+    "description": "Validate that the real-time dashboard powered by SignalR provides timely and accurate system status updates and notifications to logged-in users.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as any user."
+      },
+      {
+        "type": "action",
+        "description": "Trigger system events that cause dashboard updates (e.g., new admission, attendance marked, fee payment)."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify dashboard receives and displays updates instantly without page refresh."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify notifications and data on the dashboard are accurate and correspond to system state."
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Admission Status Tracking Edge Cases",
+    "description": "Verify system behavior when admission status changes multiple times or includes unexpected states.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Register a student and submit documents."
+      },
+      {
+        "type": "action",
+        "description": "Process status updates including acceptance, rejection, waitlist, and cancellation."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify admission status updates correctly in student view each time."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify system handles unexpected or invalid status values gracefully."
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Library Book Issue Limits and Conflicts",
+    "description": "Verify that the system enforces limits on the number of books issued per user and handles attempts to issue unavailable or already issued books.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as student or staff."
+      },
+      {
+        "type": "action",
+        "description": "Issue books up to the allowed limit."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify each issue is processed successfully until limit is reached."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to issue additional books beyond limit."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the system prevents issuing more books with appropriate messages."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to issue books that are already issued to others."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify requests for unavailable books are rejected appropriately."
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Exam Results Entry Validation and Error Handling",
+    "description": "Verify the exam result entry process validates input data correctly and handles invalid or incomplete information gracefully.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as faculty."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to result entry for an exam."
+      },
+      {
+        "type": "action",
+        "description": "Enter valid results for students and save."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify results are saved correctly."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to enter invalid data (e.g., scores out of range, missing fields) and save."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify system validation prevents saving and displays error messages."
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Fee Payment Failure and Retry Handling",
+    "description": "Verify system behavior when a fee payment fails due to technical or validation errors and supports retrying payments.",
+    "category": "error handling",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as student or guardian."
+      },
+      {
+        "type": "action",
+        "description": "Attempt to make a fee payment with invalid payment details."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify payment is rejected and error message is shown."
+      },
+      {
+        "type": "action",
+        "description": "Correct payment details and retry payment submission."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify payment is processed successfully on retry and receipt is generated."
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "User Role Management and Permission Editing",
+    "description": "Verify that admins can assign, modify, and revoke roles and permissions for users and changes are enforced immediately.",
+    "category": "functional",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Login as admin."
+      },
+      {
+        "type": "action",
+        "description": "Navigate to user role management."
+      },
+      {
+        "type": "action",
+        "description": "Assign roles to existing users."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify role assignments are saved successfully."
+      },
+      {
+        "type": "action",
+        "description": "Modify permissions for assigned roles."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify permission changes take effect immediately."
+      },
+      {
+        "type": "action",
+        "description": "Revoke roles from users."
+      },
+      {
+        "type": "assertion",
+        "description": "Verify revoked users lose access corresponding to those roles."
+      }
+    ]
+  }
+]

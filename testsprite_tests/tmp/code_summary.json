@@ -1,0 +1,37 @@
+{
+  "tech_stack": [
+    ".NET (C#) Backend",
+    "React (Vite) Frontend",
+    "Tailwind CSS",
+    "PostCSS",
+    "Swagger (API Documentation)",
+    "SignalR (DashboardHub)",
+    "SQL Database (assumed from setup-database.md)",
+    "Unit Testing (suggested: xUnit, Vitest)"
+  ],
+  "features": [
+    "Student Admission",
+    "Attendance Management",
+    "Book Issue (Library)",
+    "Contact Details",
+    "Course Management",
+    "Department Management",
+    "Enrollment",
+    "Exam Management",
+    "Faculty Management",
+    "Fees Management",
+    "Guardian Management",
+    "Hostel Allocation",
+    "Hostel Management",
+    "Library Management",
+    "Payment Processing",
+    "Result Management",
+    "Role Management",
+    "Room Management",
+    "Student Management",
+    "Subject Management",
+    "User Management",
+    "User Role Management",
+    "Real-time Dashboard (SignalR)"
+  ]
+}

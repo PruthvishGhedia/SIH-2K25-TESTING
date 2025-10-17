@@ -9,7 +9,7 @@ namespace SIH.ERP.Soap.Controllers;
 /// This controller provides CRUD operations for library books and resources management.
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/library/books")]
 public class LibraryController : BaseController
 {
     private readonly ILibraryRepository _libraryRepository;

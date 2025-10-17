@@ -9,7 +9,7 @@ namespace SIH.ERP.Soap.Controllers;
 /// This controller provides CRUD operations for student hostel room assignments and allocation management.
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/hostel/allocations")]
 public class HostelAllocationController : BaseController
 {
     private readonly IHostelAllocationRepository _hostelAllocationRepository;
